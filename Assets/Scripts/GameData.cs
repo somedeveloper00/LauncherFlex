@@ -5,10 +5,10 @@ namespace LauncherFlex
 	[Serializable]
 	public class GameData
 	{
-		public string fullPath;
+		public string execFullPath;
 		public string title;
 		public string iconPath;
-		public string startArguments;
+		public string argvs;
 		public bool startAsAdmin;
 	}
 }

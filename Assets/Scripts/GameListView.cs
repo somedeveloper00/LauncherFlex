@@ -27,26 +27,33 @@ namespace LauncherFlex
             foreach (var source in _currentCancelTokens) source?.Cancel();
         }
 
-        private async void LoadGameData()
+        private void LoadGameData()
         {
             if (File.Exists(IOUtils.DATA_SAVE_PATH))
             {
-                var gameDats = await IOUtils.LoadGameDatasAsync();
-                if (gameDats == null)
-                {
-                    Debug.LogWarning($"Data not readable");
-                    return;
-                }
+                IOUtils.LoadGameData(
+                    (gameDats) =>
+                    {
+                        if (gameDats == null)
+                        {
+                            Debug.LogWarning($"Data not readable");
+                            return;
+                        }
 
-                _datas = gameDats;
-                
-                // instantiate views
-                foreach (var gameData in _datas)
-                {
-                    var gameView = Instantiate(_gameViewPrefab, _gameViewParent);
-                    gameView.Init(gameData);
-                    gameViews.Add(gameView);
-                }
+                        _datas = gameDats;
+
+                        // instantiate views
+                        foreach (var gameData in _datas)
+                        {
+                            var gameView = Instantiate(_gameViewPrefab, _gameViewParent);
+                            gameView.Init(gameData);
+                            gameViews.Add(gameView);
+                        }
+                    },
+                    () =>
+                    {
+                        
+                    });
             }
         }
     }
