@@ -7,7 +7,7 @@ namespace LauncherFlex
 {
 	public class GameView : MonoBehaviour
 	{
-		[SerializeField] Image mainPicture;
+		[SerializeField] SpriteRenderer mainPicture;
 		[SerializeField] TMP_Text title;
 
 		private GameData gameData;

@@ -64,7 +64,6 @@ namespace LauncherFlex.EditMenu
 					iconPreview.texture = tex;
 					var w = iconPreview.rectTransform.sizeDelta.x;
 					var h = w * ((float)tex.height / tex.width);
-					Debug.Log((w, h));
 					iconPreview.rectTransform.sizeDelta = new Vector2(w, h);
 					return;
 				}

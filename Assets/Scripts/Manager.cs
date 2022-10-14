@@ -1,13 +1,11 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Threading;
-using System.Threading.Tasks;
-using Newtonsoft.Json;
 using UnityEngine;
 
 namespace LauncherFlex
 {
-    public class GameListView : MonoBehaviour
+    public class Manager : MonoBehaviour
     {
         [SerializeField] private GameView _gameViewPrefab;
         [SerializeField] private Transform _gameViewParent;
