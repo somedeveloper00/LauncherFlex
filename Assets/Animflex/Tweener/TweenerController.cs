@@ -47,38 +47,45 @@ namespace AnimFlex.Tweener
             for (var i = 0; i < _tweeners.Length; i++)
             {
                 var tweener = _tweeners[i];
-                var totalTime = tweener.duration + tweener.delay;
-
-                var t = tweener._t + deltaTime;
-
-                // apply loop
-                if (tweener.loops != 0 && t >= totalTime)
+                if (tweener.validator() == false)
                 {
-                    t %= totalTime;
-                    t += tweener.delay - tweener.loopDelay;
-                    tweener.loops--;
+                    _completed = true;
                 }
-
-                // to avoid repeated evaluations
-                if(tweener._t == t) continue;
-
-                tweener._t = t; // save for next Ticks
-
-
-
-                _completed = t >= totalTime; // completion check
-                t = _completed ? 1 : t <= tweener.delay ? 0 : (t - tweener.delay) / tweener.duration; // advanced clamp
-
-
-                // apply ping pong
-                if (tweener.pingPong && t != 0)
+                else
                 {
-                    t *= 2;
-                    if (t > 1) t = 2 - t;
-                }
+                    var totalTime = tweener.duration + tweener.delay;
 
-                tweener.Set(EaseEvaluator.Instance.EvaluateEase(tweener.ease, t, tweener.useCurve ? tweener.customCurve : null));
-                tweener.OnUpdate();
+                    var t = tweener._t + deltaTime;
+
+                    // apply loop
+                    if (tweener.loops != 0 && t >= totalTime)
+                    {
+                        t %= totalTime;
+                        t += tweener.delay - tweener.loopDelay;
+                        tweener.loops--;
+                    }
+
+                    // to avoid repeated evaluations
+                    if(tweener._t == t) continue;
+
+                    tweener._t = t; // save for next Ticks
+
+
+
+                    _completed = t >= totalTime; // completion check
+                    t = _completed ? 1 : t <= tweener.delay ? 0 : (t - tweener.delay) / tweener.duration; // advanced clamp
+
+
+                    // apply ping pong
+                    if (tweener.pingPong && t != 0)
+                    {
+                        t *= 2;
+                        if (t > 1) t = 2 - t;
+                    }
+
+                    tweener.Set(EaseEvaluator.Instance.EvaluateEase(tweener.ease, t, tweener.useCurve ? tweener.customCurve : null));
+                    tweener.OnUpdate();
+                }
 
                 // check for completion
                 if (_completed)
@@ -123,9 +130,15 @@ namespace AnimFlex.Tweener
         public void KillTweener(Tweener tweener, bool complete = true, bool onCompleteCallback = true)
         {
             if (tweener == null)
-                throw new NullReferenceException("tweener");
+            {
+                Debug.Log($"killing tweener is null");
+                return;
+            }
             if (tweener.flag.HasFlag(TweenerFlag.Deleting))
-                throw new Exception("Tweener has already been destroyed!");
+            {
+                Debug.LogError("Tweener has already been destroyed!");
+                return;
+            }
 
             tweener.flag |= TweenerFlag.Deleting;
 

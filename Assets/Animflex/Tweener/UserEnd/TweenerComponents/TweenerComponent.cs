@@ -3,7 +3,18 @@ using UnityEngine.Events;
 
 namespace AnimFlex.Tweener
 {
-    public abstract class TweenerComponent : MonoBehaviour { }
+    public abstract class TweenerComponent : MonoBehaviour
+    {
+        /// <summary>
+        /// generates the tweener and plays it if it's not playing already. otherwise generates a new tweener and plays it.
+        /// </summary>
+        public abstract void PlayOrRestart();
+
+        /// <summary>
+        /// kills the tweener right away
+        /// </summary>
+        public abstract void Kill(bool complete = true, bool onCompleteCallback = true);
+    }
     public abstract class TweenerComponent<T> : TweenerComponent where T : TweenerGenerator, new()
     {
 
@@ -56,7 +67,7 @@ namespace AnimFlex.Tweener
         /// <summary>
         /// generates the tweener and plays it if it's not playing already. otherwise generates a new tweener and plays it.
         /// </summary>
-        public void PlayOrRestart()
+        public override void PlayOrRestart()
         {
             // kill if already running
             if (m_tweener != null && !m_tweener.flag.HasFlag(TweenerFlag.Deleting))
@@ -77,7 +88,7 @@ namespace AnimFlex.Tweener
         /// <summary>
         /// kills the tweener right away
         /// </summary>
-        public void Kill(bool complete = true, bool onCompleteCallback = true)
+        public override void Kill(bool complete = true, bool onCompleteCallback = true)
         {
             TweenerController.Instance.KillTweener(m_tweener, complete, onCompleteCallback);
         }

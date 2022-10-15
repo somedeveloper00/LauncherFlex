@@ -30,10 +30,18 @@ namespace AnimFlex.Sequencer.Clips
     [DisplayName("Tweener Fade (CanvasGroup)")]
     [Category("Tweener/Fade/CanvasGroup")]
     public class CTweenerFadeCanvasGroup : CTweener<TweenerGeneratorFadeCanvasGroup> { }
+    [Category("Tweener/Fade/TMP")]
+    public class CTweenerFadeTMP : CTweener<TweenerGeneratorFadeTMP> { }
     [DisplayName("Tweener Color (Graphic)")]
     [Category("Tweener/Color/Graphic")]
     public class CTweenerColorGraphic : CTweener<TweenerGeneratorColorGraphic> { }
     [DisplayName("Tweener Color (Renderer)")]
     [Category("Tweener/Color/Renderer")]
     public class CTweenerColorRenderer : CTweener<TweenerGeneratorColorRenderer> { }
+    [Category("Tweener/Color/TextMesh")]
+    public class CTweenerColorTMP : CTweener<TweenerGeneratorColorTMP> { }
+    [Category("Tweener/Light/Color")]
+    public class CTweenerLightColor : CTweener<TweenerGeneratorLightColor> { }
+    [Category("Tweener/Light/Intensity")]
+    public class CTweenerLightIntensity : CTweener<TweenerGeneratorLightIntensity> { }
 }

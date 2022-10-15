@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using System;
 
 namespace LauncherFlex.EditMenu
 {
@@ -10,6 +11,7 @@ namespace LauncherFlex.EditMenu
 		[SerializeField] private Transform _editViewParent;
 		
 		private List<GameDataEditView> _gameDataEditViews = new List<GameDataEditView>();
+		public event Action onDestroy;
 
 		private void Start()
 		{
@@ -50,6 +52,7 @@ namespace LauncherFlex.EditMenu
 
 		public void CloseMenu()
 		{
+			onDestroy?.Invoke();
 			Destroy(gameObject);
 		}
 	}

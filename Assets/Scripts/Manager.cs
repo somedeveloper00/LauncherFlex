@@ -1,23 +1,25 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Threading;
+using AnimFlex.Sequencer;
+using AnimFlex.Sequencer.UserEnd;
+using AnimFlex.Tweener;
+using LauncherFlex.ListView;
 using UnityEngine;
 
 namespace LauncherFlex
 {
     public class Manager : MonoBehaviour
-    {
+    {		
         [SerializeField] private GameView _gameViewPrefab;
-        [SerializeField] private Transform _gameViewParent;
-
-        private List<GameData> _datas;
-        private List<GameView> gameViews = new List<GameView>();
+        [SerializeField] private WideListView3D _listView;
 
         private List<CancellationTokenSource> _currentCancelTokens = new List<CancellationTokenSource>();
 
         private void Start()
         {
-            LoadGameData();
+            GlobalInput.mainNav.Enable();
+            ReloadGamesListView();
         }
 
         private void OnDestroy()
@@ -25,8 +27,9 @@ namespace LauncherFlex
             foreach (var source in _currentCancelTokens) source?.Cancel();
         }
 
-        private void LoadGameData()
+        public void ReloadGamesListView()
         {
+            // load game views
             if (File.Exists(IOUtils.DATA_SAVE_PATH))
             {
                 IOUtils.LoadGameData(
@@ -38,15 +41,17 @@ namespace LauncherFlex
                             return;
                         }
 
-                        _datas = gameDats;
-
+                        _listView.Clear(true);
                         // instantiate views
-                        foreach (var gameData in _datas)
+                        var views = new List<GameView>();
+                        foreach (var gameData in gameDats)
                         {
-                            var gameView = Instantiate(_gameViewPrefab, _gameViewParent);
+                            var gameView = Instantiate(_gameViewPrefab, transform);
                             gameView.Init(gameData);
-                            gameViews.Add(gameView);
+                            views.Add(gameView);
                         }
+
+                        _listView.AddItems(views);
                     },
                     () =>
                     {

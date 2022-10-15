@@ -1,4 +1,5 @@
 ﻿using System;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -155,6 +156,17 @@ namespace AnimFlex.Tweener
         }
     }
 
+    [Serializable]
+    public class TweenerGeneratorFadeTMP : TweenerGenerator<TMP_Text, float>
+    {
+        protected override Tweener GenerateTween(AnimationCurve curve)
+        {
+            float toVal = target;
+            if (relative) toVal += fromObject.alpha;
+            return fromObject.AnimFadeTo(toVal, ease, duration, delay, curve);
+        }
+    }
+
     #endregion
 
     #region Color
@@ -181,5 +193,42 @@ namespace AnimFlex.Tweener
         }
     }
 
+    [Serializable]
+    public class TweenerGeneratorColorTMP : TweenerGenerator<TMP_Text, Color>
+    {
+        protected override Tweener GenerateTween(AnimationCurve curve)
+        {
+            var toVal = target;
+            if (relative) toVal += fromObject.material.color;
+            return fromObject.AnimColorTo(toVal, ease, duration, delay, curve);
+        }
+    }
+
     #endregion
+
+#region Light
+
+    [Serializable]
+    public class TweenerGeneratorLightColor : TweenerGenerator<Light, Color>
+    {
+        protected override Tweener GenerateTween(AnimationCurve curve)
+        {
+            var toVal = target;
+            if (relative) toVal += fromObject.color;
+            return fromObject.AnimLightColorTo(toVal, ease, duration, delay, curve);
+        }
+    }
+
+    [Serializable]
+    public class TweenerGeneratorLightIntensity : TweenerGenerator<Light, float>
+    {
+        protected override Tweener GenerateTween(AnimationCurve curve)
+        {
+            var toVal = target;
+            if (relative) toVal += fromObject.intensity;
+            return fromObject.AnimLightIntensotyTo(toVal, ease, duration, delay, curve);
+        }
+    }
+
+#endregion
 }

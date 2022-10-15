@@ -30,6 +30,11 @@ namespace AnimFlex.Tweener
 
     public abstract partial class Tweener
     {
+        /// <summary>
+        /// used for validating the tweener. returns <code>true</code> by default
+        /// </summary>
+        internal Func<bool> validator = () => true;
+        
         /// per-tween T value for evaluation
         internal float _t = 0;
 
@@ -85,6 +90,17 @@ namespace AnimFlex.Tweener
 
 
         internal Tweener() => TweenerController.Instance.AddTweener(this);
+
+        public static bool operator ==(Tweener tweener1, Tweener tweener2)
+        {
+            if (tweener1 is null || tweener1.flag.HasFlag(TweenerFlag.Deleting))
+                tweener1 = null;
+            if (tweener2 is null || tweener2.flag.HasFlag(TweenerFlag.Deleting))
+                tweener2 = null;
+            return ReferenceEquals(tweener1, tweener2);
+        }
+
+        public static bool operator !=(Tweener tweener1, Tweener tweener2) => !(tweener1 == tweener2);
 
 #region events
 
