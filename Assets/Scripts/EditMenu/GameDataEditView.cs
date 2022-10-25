@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using Scripts.WebCatcher;
 using SFB;
 using TMPro;
 using UnityEngine;
@@ -9,14 +10,19 @@ namespace LauncherFlex.EditMenu
 {
 	public class GameDataEditView : MonoBehaviour
 	{
+		[SerializeField] private CoverImageRetriever coverImageRetrieverPrefab;
+		
 		public TMP_InputField titleInputText;
 		public TMP_InputField execPathInputText;
 		public TMP_InputField iconPathInputText;
 		public RawImage iconPreview;
 		public TMP_InputField argvsInputText;
 		public Toggle startAsAdmin;
+		public Toggle displayTitle;
 
 		public event Action onDelete;
+		public event Action onMoveUp, onMoveDown;
+		
 		private string lastIconPath = "";
 
 		private void Update()
@@ -42,9 +48,13 @@ namespace LauncherFlex.EditMenu
 				title = titleInputText.text,
 				iconPath = iconPathInputText.text,
 				execFullPath = execPathInputText.text,
-				startAsAdmin = startAsAdmin.isOn
+				startAsAdmin = startAsAdmin.isOn,
+				displayTitle = displayTitle.isOn
 			};
 		}
+
+		public void MoveDown() => onMoveDown?.Invoke();
+		public void MoveUp() => onMoveUp?.Invoke();
 
 		public void SetData(GameData data)
 		{
@@ -53,6 +63,7 @@ namespace LauncherFlex.EditMenu
 			iconPathInputText.text = data.iconPath;
 			argvsInputText.text = data.argvs;
 			startAsAdmin.isOn = data.startAsAdmin;
+			displayTitle.isOn = data.displayTitle;
 		}
 
 		public void UpdateIconPreview()
@@ -94,6 +105,13 @@ namespace LauncherFlex.EditMenu
 			{
 				iconPathInputText.text = path[0];
 			}
+		}
+
+		public void OpenIconDownloadPage()
+		{
+			var cir = Instantiate(coverImageRetrieverPrefab);
+			cir.SearchAndShow(titleInputText.text);
+			cir.onComplete += value => iconPathInputText.text = value;
 		}
 	}
 }

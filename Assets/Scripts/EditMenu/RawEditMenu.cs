@@ -19,11 +19,37 @@ namespace LauncherFlex.EditMenu
 				(gameData) =>
 				{
 					// instantiate edits
-					foreach (var data in gameData)
+					for (var i = 0; i < gameData.Count; i++)
 					{
+						int index = i;
+						var data = gameData[i];
 						var editView = Instantiate(_editViewPrefab, _editViewParent);
 						editView.SetData(data);
 						editView.onDelete += () => _gameDataEditViews.Remove(editView);
+						editView.onMoveUp += () =>
+						{
+							if(index == 0) return;
+							
+							// set view
+							_gameDataEditViews[index].transform
+								.SetSiblingIndex(_gameDataEditViews[index].transform.GetSiblingIndex() - 1);
+							// set data
+							var tmp = _gameDataEditViews[index];
+							_gameDataEditViews[index] = _gameDataEditViews[index - 1];
+							_gameDataEditViews[index - 1] = tmp;
+						};
+						editView.onMoveDown += () =>
+						{
+							if(index == gameData.Count - 1) return;
+							
+							// set view
+							_gameDataEditViews[index].transform
+								.SetSiblingIndex(_gameDataEditViews[index].transform.GetSiblingIndex() + 1);
+							// set data
+							var tmp = _gameDataEditViews[index];
+							_gameDataEditViews[index] = _gameDataEditViews[index + 1];
+							_gameDataEditViews[index + 1] = tmp;
+						};
 						_gameDataEditViews.Add(editView);
 					}
 				},

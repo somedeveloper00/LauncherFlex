@@ -19,8 +19,10 @@ namespace LauncherFlex
 			if (IOUtils.LoadTexture2DFromPath(this.gameData.iconPath, out var tex))
 			{
 				mainPicture.material.mainTexture = tex;
-				
+				FixPictureRatio();
 				title.text = this.gameData.title;
+				title.gameObject.SetActive(gameData.displayTitle);
+
 			}
 		}
 

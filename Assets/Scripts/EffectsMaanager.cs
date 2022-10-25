@@ -9,8 +9,9 @@ namespace Scripts
 	public class EffectsMaanager : MonoBehaviour
 	{
 		[Header("References")]
-		[SerializeField] Light directLight, pointLight;
+		[SerializeField] private Light directLight, pointLight;
 		[SerializeField] private MeshRenderer backgroundCircle;
+		[SerializeField] private ParticleSystem softFx, hardFx;
 		
 		[Header("Color Calcs")]
 		[Range(0, 1)]
@@ -62,6 +63,26 @@ namespace Scripts
 			// set background light
 			_currentTweeners.Add(
 				backgroundCircle.AnimColorTo(col2, ease, duration, delay)
+			);
+			
+			// set hard particles
+			var hardFxMain = hardFx.main;
+			_currentTweeners.Add(
+				Tweener.Generate(
+					() => hardFxMain.startColor.color,
+					(color) => hardFxMain.startColor = (Color)color,
+					col1,
+					ease, duration, delay)
+			);
+			
+			// set soft particles
+			var softFxMain = softFx.main;
+			_currentTweeners.Add(
+				Tweener.Generate(
+					() => softFxMain.startColor.color,
+					(color) => softFxMain.startColor = (Color)color,
+					col1,
+					ease, duration, delay)
 			);
 		}
 
