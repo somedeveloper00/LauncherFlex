@@ -3,23 +3,12 @@ using UnityEngine.Events;
 
 namespace AnimFlex.Tweener
 {
-    public abstract class TweenerComponent : MonoBehaviour
-    {
-        /// <summary>
-        /// generates the tweener and plays it if it's not playing already. otherwise generates a new tweener and plays it.
-        /// </summary>
-        public abstract void PlayOrRestart();
-
-        /// <summary>
-        /// kills the tweener right away
-        /// </summary>
-        public abstract void Kill(bool complete = true, bool onCompleteCallback = true);
-    }
+    public abstract class TweenerComponent : MonoBehaviour { }
     public abstract class TweenerComponent<T> : TweenerComponent where T : TweenerGenerator, new()
     {
-
+        
         public T generator;
-
+        
         [Tooltip("If checked, it'll play right when the game object activates")]
         [SerializeField] internal bool playOnStart;
 
@@ -42,7 +31,7 @@ namespace AnimFlex.Tweener
         /// </summary>
         public bool TryGetTweener(out Tweener tweener)
         {
-            if (m_tweener != null &&
+            if (m_tweener != null && 
                 !m_tweener.flag.HasFlag(TweenerFlag.Deleting))
             {
                 tweener = m_tweener;
@@ -52,9 +41,9 @@ namespace AnimFlex.Tweener
             tweener = null;
             return false;
         }
-
+        
         #endregion
-
+        
         private void Start()
         {
             if (playOnStart)
@@ -63,32 +52,30 @@ namespace AnimFlex.Tweener
             }
         }
 
-
+        
         /// <summary>
         /// generates the tweener and plays it if it's not playing already. otherwise generates a new tweener and plays it.
         /// </summary>
-        public override void PlayOrRestart()
+        public void PlayOrRestart()
         {
             // kill if already running
             if (m_tweener != null && !m_tweener.flag.HasFlag(TweenerFlag.Deleting))
                 Kill(false, false);
-
+            
             // generate new tweener if possible
-            if (generator.TryGenerateTween(out var tweeners))
+            if (generator.TryGenerateTween(out m_tweener))
             {
-                if (tweeners == null || tweeners.Length == 0)
+                if (m_tweener == null)
                 {
                     Debug.LogError($"Unexpected Error happened while generating tweener!");
-                    return;
                 }
-	            m_tweener = tweeners[0];
             }
         }
 
         /// <summary>
         /// kills the tweener right away
         /// </summary>
-        public override void Kill(bool complete = true, bool onCompleteCallback = true)
+        public void Kill(bool complete = true, bool onCompleteCallback = true)
         {
             TweenerController.Instance.KillTweener(m_tweener, complete, onCompleteCallback);
         }

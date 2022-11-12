@@ -4,7 +4,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using AnimFlex.Sequencer.UserEnd;
-using AnimFlex.Tweener;
+using AnimFlex.Tweening;
 using Scripts;
 using TMPro;
 using UnityEngine;

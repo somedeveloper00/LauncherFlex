@@ -6,7 +6,7 @@ using UnityEngine;
 namespace AnimFlex.Editor.Sequencer
 {
     [CustomPropertyDrawer(typeof(ClipNode))]
-    public class ClipNodeDrawer : PropertyDrawer
+    public class ClipNodeEditor : PropertyDrawer
     {
         private SerializedProperty property;
         private SerializedProperty _nameProp;

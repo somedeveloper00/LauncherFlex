@@ -14,6 +14,6 @@ namespace AnimFlex.Sequencer.Clips
         {
             PlayIndex(index);
         }
-        public override void OnForceEnd() { }
+        public override void OnEnd() { }
     }
 }

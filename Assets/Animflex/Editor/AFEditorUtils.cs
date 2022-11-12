@@ -97,7 +97,7 @@ namespace AnimFlex.Editor
                     BindingFlags.Default | BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
 
                 obj = field.GetValue(obj);
-                if (field.FieldType.IsArray && i < split.Length - 1) // if is array and is not the final object
+                if (field.FieldType.IsArray)
                 {
                     i += 2;
                     path = split[i].Replace("data[", "").Replace("]", "");
@@ -201,31 +201,10 @@ namespace AnimFlex.Editor
             menu.ShowAsContext();
         }
 
-        /// <summary>
-        /// Draws a popup containing all the available clips inside the specified sequence.
-        /// </summary>
-        /// <param name="position">the drawing position</param>
-        /// <param name="property">the <see cref="int"/> property pointing to the clip index</param>
-        /// <param name="label">label for the popup</param>
-        /// <param name="sequence">The containing sequence</param>
+
         public static void DrawNodeSelectionPopup(Rect position, SerializedProperty property, GUIContent label, Sequence sequence)
         {
-	        DrawNodeSelectionPopup<Clip>(position, property, label, sequence);
-        }
-
-        /// <summary>
-        /// Draws a popup containing all the available clips inside the specified sequence, with the given Clip type
-        /// </summary>
-        /// <param name="position">the drawing position</param>
-        /// <param name="property">the <see cref="int"/> property pointing to the clip index</param>
-        /// <param name="label">label for the popup</param>
-        /// <param name="sequence">The containing sequence</param>
-        /// <typeparam name="T">Type of Clip</typeparam>
-        public static void DrawNodeSelectionPopup<T>(Rect position, SerializedProperty property, GUIContent label, Sequence sequence)
-			where T : Clip
-        {
             var displayedOptions = sequence.nodes
-	            .Where((node) => node.clip is T)
                 .Select((node, i) => $"({i}) {node.name}").ToArray()
                 .Select(p => new GUIContent(p)).ToArray();
 

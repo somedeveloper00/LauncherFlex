@@ -101,7 +101,7 @@ namespace AnimFlex.Sequencer
 	    {
 		    for (int i = 0; i < nodes.Length; i++) nodes[i].Init(this, i);
 		    ActivateClip(0);
-		    onPlay();
+		    onPlay(); 
 	    }
 
 	    internal void OnStop()
@@ -153,15 +153,6 @@ namespace AnimFlex.Sequencer
 #endregion
 
 #region Clip manipulations
-
-	    /// <param name="index">index of the clip</param>
-	    /// <returns>the clip at the specified index, from this sequence.</returns>
-	    /// <exception cref="ArgumentOutOfRangeException"></exception>
-	    public Clip GetClipAtIndex(int index)
-	    {
-		    if(index < 0 || index >= nodes.Length) throw new ArgumentOutOfRangeException(nameof(index));
-		    return nodes[index].clip;
-	    }
 
         public void RemoveClipNodeAtIndex(int index)
         {

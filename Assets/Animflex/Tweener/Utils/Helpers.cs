@@ -5,33 +5,6 @@ namespace AnimFlex.Tweener
 {
     public static class Helpers
     {
-	    /// <summary>
-	    /// <para>checks if the tweener is active or not.</para>
-	    /// <para>note: if a tweener is just created, it won't actually be considered Active until it's <see cref="Tweener.onStart"/> is called.</para>
-	    /// </summary>
-	    public static bool IsActive(this Tweener tweener)
-	    {
-		    return tweener.flag.HasFlag(TweenerFlag.Active);
-	    }
-
-	    /// <summary>
-	    /// <para>reverts the tweener.</para>
-	    /// <para>note: if the tweener is Active, it'll kill the tweener first, and then reverts it, which could
-	    /// happen in the next frame and not instantly</para>
-	    /// </summary>
-	    public static void Revert(this Tweener tweener)
-	    {
-		    if (tweener.IsActive())
-		    {
-			    tweener.onKill += () => tweener.Set(0);
-			    tweener.Kill(false, true);
-		    }
-		    else
-		    {
-				tweener.Set(0);
-		    }
-	    }
-
         /// <summary>
         /// kills the tweener in the next frame
         /// </summary>

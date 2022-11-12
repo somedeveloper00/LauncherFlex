@@ -15,7 +15,7 @@ namespace AnimFlex.Sequencer.Clips
         internal abstract Type GetValueType();
 #endif
 
-	    public override void OnForceEnd() { }
+	    public override void OnEnd() { }
     }
     public abstract class CWaitUntil<T> : CWaitUntil
     {

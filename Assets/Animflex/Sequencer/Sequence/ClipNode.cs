@@ -50,7 +50,7 @@ namespace AnimFlex.Sequencer
         /// </summary>
         internal void End()
         {
-			clip.OnForceEnd();
+			clip.OnEnd();
         }
 
         /// <summary>

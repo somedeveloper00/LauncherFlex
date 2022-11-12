@@ -8,7 +8,7 @@ using UnityEngine;
 namespace AnimFlex.Editor.Sequencer
 {
     [CustomPropertyDrawer(typeof(CGoto))]
-    public class CGotoDrawer : PropertyDrawer
+    public class CGotoEditor : PropertyDrawer
     {
         private SerializedProperty _indexProp;
         private Sequence _sequence;
@@ -17,7 +17,7 @@ namespace AnimFlex.Editor.Sequencer
         {
             _indexProp = property.FindPropertyRelative(nameof(CGoto.index));
             _sequence ??= ((SequenceAnim)property.serializedObject.targetObject).sequence;
-
+            
             EditorGUI.BeginProperty(position, label, property);
 
             AFEditorUtils.DrawNodeSelectionPopup(position, _indexProp, new GUIContent("Next :", _indexProp.tooltip), _sequence);
@@ -25,7 +25,7 @@ namespace AnimFlex.Editor.Sequencer
             EditorGUI.EndProperty();
         }
 
-
+       
 
         public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
         {

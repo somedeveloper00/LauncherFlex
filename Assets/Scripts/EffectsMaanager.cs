@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using AnimFlex.Tweener;
+using AnimFlex.Tweening;
 using LauncherFlex;
 using UnityEngine;
 
@@ -52,11 +52,13 @@ namespace Scripts
 			var col2 = colorsFreq[Mathf.Min(colorsFreq.Length - 1, 1)];
 
 			foreach (var tweener in _currentTweeners)
-				if (tweener.IsActive())
+            {
+                if (tweener.IsValid())
 					tweener.Kill(false, false);
+            }
 
-			// set point light
-			_currentTweeners.Add(
+            // set point light
+            _currentTweeners.Add(
 				pointLight.AnimLightColorTo(col1, ease, duration, delay)
 			);
 			

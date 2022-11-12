@@ -13,7 +13,7 @@ namespace AnimFlex.Tweener
         internal abstract Type GetFromValueType();
         internal abstract Type GetToValueType();
         internal abstract void Reset(GameObject gameObject);
-        internal abstract bool TryGenerateTween(out Tweener[] tweener);
+        internal abstract bool TryGenerateTween(out Tweener tweener);
 
         #region Data
 
@@ -92,9 +92,9 @@ namespace AnimFlex.Tweener
 
         protected abstract Tweener GenerateTween(AnimationCurve curve);
 
-        internal override bool TryGenerateTween(out Tweener[] tweeners)
+        internal override bool TryGenerateTween(out Tweener tweener)
         {
-            tweeners = null;
+            tweener = null;
 
             if (fromObject == null)
             {
@@ -104,25 +104,20 @@ namespace AnimFlex.Tweener
 
             AnimationCurve curve = useCurve ? customCurve : null;
 
-            tweeners = new Tweener[] { GenerateTween(curve) };
+            tweener = GenerateTween(curve);
 
 
             // add Unity events
-            if (tweeners?.Length > 0)
-            {
-	            tweeners[0].onStart += onStart.Invoke;
-	            tweeners[0].onComplete += () => onComplete.Invoke();
-	            tweeners[0].onKill += onKill.Invoke;
-	            tweeners[0].onUpdate += onUpdate.Invoke;
-	            tweeners[0].@from = @from;
-	            tweeners[0].loops = loops;
-	            tweeners[0].loopDelay = loopDelay;
-	            tweeners[0].pingPong = pingPong;
+            tweener.onStart += onStart.Invoke;
+            tweener.onComplete += () => onComplete.Invoke();
+            tweener.onKill += onKill.Invoke;
+            tweener.onUpdate += onUpdate.Invoke;
+            tweener.@from = @from;
+            tweener.loops = loops;
+            tweener.loopDelay = loopDelay;
+            tweener.pingPong = pingPong;
 
-	            return true;
-            }
-
-            return false;
+            return true;
         }
 
         internal override void Reset(GameObject gameObject)
@@ -153,9 +148,9 @@ namespace AnimFlex.Tweener
         /// <summary>
         /// returns the last generated tweener
         /// </summary>
-        internal override bool TryGenerateTween(out Tweener[] tweeners)
+        internal override bool TryGenerateTween(out Tweener tweener)
         {
-            tweeners = null;
+            tweener = null;
 
             var forObjects = AFSelection.GetSelectedObjects(selections);
 
@@ -167,32 +162,27 @@ namespace AnimFlex.Tweener
 
             AnimationCurve curve = useCurve ? customCurve : null;
 
-            tweeners = new Tweener[forObjects.Length];
-
             for (int i = 0; i < forObjects.Length; i++)
             {
-                tweeners[i] = GenerateTween(forObjects[i], curve, delay + multiDelay * i);
-	            if (tweeners[i] != null)
-	            {
-	                tweeners[i].@from = @from;
-	                tweeners[i].loops = loops;
-	                tweeners[i].loopDelay = loopDelay;
-	                tweeners[i].pingPong = pingPong;
-
-					// add Unity events
-		            tweeners[i].onStart += onStart.Invoke;
-		            tweeners[i].onComplete += () => onComplete.Invoke();
-		            tweeners[i].onKill += onKill.Invoke;
-		            tweeners[i].onUpdate += onUpdate.Invoke;
-	            }
-	            else
-	            {
-					return false;
-	            }
+                tweener = GenerateTween(forObjects[i], curve, delay + multiDelay * i);
+                tweener.@from = @from;
+                tweener.loops = loops;
+                tweener.loopDelay = loopDelay;
+                tweener.pingPong = pingPong;
             }
 
-			return true;
 
+            // add Unity events
+            if (tweener != null)
+            {
+	            tweener.onStart += onStart.Invoke;
+	            tweener.onComplete += () => onComplete.Invoke();
+	            tweener.onKill += onKill.Invoke;
+	            tweener.onUpdate += onUpdate.Invoke;
+				return true;
+            }
+
+			return false;
         }
 
 

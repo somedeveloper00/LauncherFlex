@@ -10,6 +10,6 @@ namespace AnimFlex.Sequencer.Clips
         {
             Node.sequence.Stop();
         }
-        public override void OnForceEnd() { }
+        public override void OnEnd() { }
     }
 }

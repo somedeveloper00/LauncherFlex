@@ -34,9 +34,9 @@ namespace AnimFlex.Tweener
             for (var i = 0; i < _tweeners.Length; i++)
             {
                 var tweener = _tweeners[i];
-                if (tweener.flag.HasFlag(TweenerFlag.Active) == false)
+                if (tweener.flag.HasFlag(TweenerFlag.Initialized) == false)
                 {
-                    tweener.flag |= TweenerFlag.Active;
+                    tweener.flag |= TweenerFlag.Initialized;
                     tweener.Init();
                     tweener.OnStart();
                 }
@@ -47,45 +47,38 @@ namespace AnimFlex.Tweener
             for (var i = 0; i < _tweeners.Length; i++)
             {
                 var tweener = _tweeners[i];
-                if (tweener.validator() == false)
+                var totalTime = tweener.duration + tweener.delay;
+
+                var t = tweener._t + deltaTime;
+
+                // apply loop
+                if (tweener.loops != 0 && t >= totalTime)
                 {
-                    _completed = true;
+                    t %= totalTime;
+                    t += tweener.delay - tweener.loopDelay;
+                    tweener.loops--;
                 }
-                else
+
+                // to avoid repeated evaluations
+                if(tweener._t == t) continue;
+
+                tweener._t = t; // save for next Ticks
+
+
+
+                _completed = t >= totalTime; // completion check
+                t = _completed ? 1 : t <= tweener.delay ? 0 : (t - tweener.delay) / tweener.duration; // advanced clamp
+
+
+                // apply ping pong
+                if (tweener.pingPong && t != 0)
                 {
-                    var totalTime = tweener.duration + tweener.delay;
-
-                    var t = tweener._t + deltaTime;
-
-                    // apply loop
-                    if (tweener.loops != 0 && t >= totalTime)
-                    {
-                        t %= totalTime;
-                        t += tweener.delay - tweener.loopDelay;
-                        tweener.loops--;
-                    }
-
-                    // to avoid repeated evaluations
-                    if(tweener._t == t) continue;
-
-                    tweener._t = t; // save for next Ticks
-
-
-
-                    _completed = t >= totalTime; // completion check
-                    t = _completed ? 1 : t <= tweener.delay ? 0 : (t - tweener.delay) / tweener.duration; // advanced clamp
-
-
-                    // apply ping pong
-                    if (tweener.pingPong && t != 0)
-                    {
-                        t *= 2;
-                        if (t > 1) t = 2 - t;
-                    }
-
-                    tweener.Set(EaseEvaluator.Instance.EvaluateEase(tweener.ease, t, tweener.useCurve ? tweener.customCurve : null));
-                    tweener.OnUpdate();
+                    t *= 2;
+                    if (t > 1) t = 2 - t;
                 }
+
+                tweener.Set(EaseEvaluator.Instance.EvaluateEase(tweener.ease, t, tweener.useCurve ? tweener.customCurve : null));
+                tweener.OnUpdate();
 
                 // check for completion
                 if (_completed)
@@ -103,7 +96,6 @@ namespace AnimFlex.Tweener
                 if (_tweeners[i].flag.HasFlag(TweenerFlag.Deleting))
                 {
                     _tweeners[i].OnKill();
-                    _tweeners[i].flag &= ~TweenerFlag.Active;
                     _tweeners.RemoveAt(i--);
                 }
             }
@@ -130,15 +122,9 @@ namespace AnimFlex.Tweener
         public void KillTweener(Tweener tweener, bool complete = true, bool onCompleteCallback = true)
         {
             if (tweener == null)
-            {
-                Debug.Log($"killing tweener is null");
-                return;
-            }
+                throw new NullReferenceException("tweener");
             if (tweener.flag.HasFlag(TweenerFlag.Deleting))
-            {
-                Debug.LogError("Tweener has already been destroyed!");
-                return;
-            }
+                throw new Exception("Tweener has already been destroyed!");
 
             tweener.flag |= TweenerFlag.Deleting;
 
@@ -154,6 +140,5 @@ namespace AnimFlex.Tweener
             }
 
         }
-
     }
 }

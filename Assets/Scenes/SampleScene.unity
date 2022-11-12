@@ -11066,7 +11066,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2020274967}
   - component: {fileID: 2020274966}
-  - component: {fileID: 2020274970}
+  - component: {fileID: 2020274968}
   m_Layer: 0
   m_Name: Point Light
   m_TagString: Untagged
@@ -11151,7 +11151,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2020274970
+--- !u!114 &2020274968
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -11167,59 +11167,21 @@ MonoBehaviour:
   resetOnPlay: 1
   sequence:
     nodes:
-    - name: light pow
-      delay: 0
-      clip:
-        rid: 3351869264351723520
     - name: up/down
       delay: 0
       clip:
-        rid: 3351869264351723521
+        rid: 3351869478919208961
+    - name: light pow
+      delay: 0
+      clip:
+        rid: 3351869478919208963
   references:
     version: 2
     RefIds:
-    - rid: 3351869264351723520
-      type: {class: CTweenerLightIntensity, ns: AnimFlex.Sequencer.Clips, asm: AnimFlex}
-      data:
-        playNextOnStart: 1
-        revertOnEnd: 0
-        tweenerGenerator:
-          customCurve:
-            serializedVersion: 2
-            m_Curve: []
-            m_PreInfinity: 2
-            m_PostInfinity: 2
-            m_RotationOrder: 4
-          useCurve: 0
-          useQuaternion: 0
-          relative: 0
-          useTargetTransform: 0
-          from: 0
-          ease: 3
-          duration: 4
-          delay: 0
-          pingPong: 1
-          loops: -1
-          loopDelay: 0
-          onStart:
-            m_PersistentCalls:
-              m_Calls: []
-          onUpdate:
-            m_PersistentCalls:
-              m_Calls: []
-          onComplete:
-            m_PersistentCalls:
-              m_Calls: []
-          onKill:
-            m_PersistentCalls:
-              m_Calls: []
-          fromObject: {fileID: 2020274966}
-          target: 0.5
-    - rid: 3351869264351723521
+    - rid: 3351869478919208961
       type: {class: CTweenerLocalPosition, ns: AnimFlex.Sequencer.Clips, asm: AnimFlex}
       data:
-        playNextOnStart: 0
-        revertOnEnd: 0
+        playNextOnStart: 1
         tweenerGenerator:
           customCurve:
             serializedVersion: 2
@@ -11252,6 +11214,42 @@ MonoBehaviour:
               m_Calls: []
           fromObject: {fileID: 2020274967}
           target: {x: 0, y: 80, z: 0}
+    - rid: 3351869478919208963
+      type: {class: CTweenerLightIntensity, ns: AnimFlex, asm: Assembly-CSharp}
+      data:
+        playNextOnStart: 0
+        tweenerGenerator:
+          customCurve:
+            serializedVersion: 2
+            m_Curve: []
+            m_PreInfinity: 2
+            m_PostInfinity: 2
+            m_RotationOrder: 4
+          useCurve: 0
+          useQuaternion: 0
+          relative: 0
+          useTargetTransform: 0
+          from: 0
+          ease: 3
+          duration: 4
+          delay: 0
+          pingPong: 1
+          loops: 0
+          loopDelay: 0
+          onStart:
+            m_PersistentCalls:
+              m_Calls: []
+          onUpdate:
+            m_PersistentCalls:
+              m_Calls: []
+          onComplete:
+            m_PersistentCalls:
+              m_Calls: []
+          onKill:
+            m_PersistentCalls:
+              m_Calls: []
+          fromObject: {fileID: 2020274966}
+          target: 5
 --- !u!1 &2038594585
 GameObject:
   m_ObjectHideFlags: 0

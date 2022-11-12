@@ -6,7 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using AnimFlex.Sequencer.UserEnd;
-using AnimFlex.Tweener;
+using AnimFlex.Tweening;
 using SFB;
 using TMPro;
 using UnityEngine;

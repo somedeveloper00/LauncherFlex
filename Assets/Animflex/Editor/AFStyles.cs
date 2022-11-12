@@ -187,7 +187,7 @@ namespace AnimFlex.Editor
                     Color.clear, Color.clear,
                     Color.clear, Color.clear
                 });
-                tex.Apply();
+                tex.Apply(false);
                 _clearButton.normal.background = _clearButton.hover.background =
                     _clearButton.onHover.background = tex;
                 return _clearButton;

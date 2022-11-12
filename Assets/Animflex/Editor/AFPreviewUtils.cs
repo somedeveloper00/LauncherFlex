@@ -214,6 +214,7 @@ namespace AnimFlex.Editor
             if (StartPreviewMode())
             {
 	            sequence.Play();
+	            sequence.onComplete += StopPreviewMode;
             }
         }
 

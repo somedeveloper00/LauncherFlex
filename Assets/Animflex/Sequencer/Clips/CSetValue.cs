@@ -11,7 +11,7 @@ namespace AnimFlex.Sequencer.Clips
         public Component component;
         public string valueName;
 
-	    public override void OnForceEnd() { }
+	    public override void OnEnd() { }
 
 #if UNITY_EDITOR
         internal abstract Type GetValueType();

@@ -30,22 +30,22 @@ namespace AnimFlex.Editor.Sequencer
                 if (check.changed)
                     AFEditorUtils.OpenComponentReferenceSelectionMenu(componentProp);
             }
-
+            
             pos.y += AFStyles.Height + AFStyles.VerticalSpace;
             AFEditorUtils.DrawFieldNameSelectionPopup(type, componentProp, pos, valueNameProp);
 
             var sequence = ((SequenceAnim)property.serializedObject.targetObject).sequence;
-
+            
             pos.y += AFStyles.Height + AFStyles.VerticalSpace;
             EditorGUI.PropertyField(pos, valueProp, new GUIContent("Is ", valueProp.tooltip));
-
+            
             pos.y += EditorGUI.GetPropertyHeight(valueProp) + AFStyles.VerticalSpace;
             AFEditorUtils.DrawNodeSelectionPopup(pos, indexIfProp, new GUIContent("If True :", indexIfProp.tooltip), sequence);
-
+            
             pos.y += AFStyles.Height + AFStyles.VerticalSpace;
             AFEditorUtils.DrawNodeSelectionPopup(pos, indexElseProp, new GUIContent("Else :", indexElseProp.tooltip), sequence);
 
-
+            
             EditorGUI.EndProperty();
         }
 
@@ -56,7 +56,7 @@ namespace AnimFlex.Editor.Sequencer
     }
 
     [CustomPropertyDrawer(typeof(CGotoIf), true)]
-    public class CGotoIfDrawer : PropertyDrawer
+    public class CGotoIfEditor : PropertyDrawer
     {
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {

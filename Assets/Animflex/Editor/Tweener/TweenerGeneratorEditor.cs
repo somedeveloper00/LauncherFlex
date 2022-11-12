@@ -103,7 +103,7 @@ namespace AnimFlex.Editor.Tweener
                 new GUIContent("On Kill", onKill.tooltip)
             });
 
-            pos.y += AFStyles.Height;
+            pos.y += AFStyles.Height + AFStyles.VerticalSpace;
 
             switch (selectedEvent)
             {

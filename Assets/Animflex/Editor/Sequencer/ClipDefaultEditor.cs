@@ -6,7 +6,7 @@ using UnityEngine;
 namespace AnimFlex.Editor.Sequencer
 {
     [CustomPropertyDrawer(typeof(Clip), true)]
-    public class ClipDefaultDrawer : PropertyDrawer
+    public class ClipDefaultEditor : PropertyDrawer
     {
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {

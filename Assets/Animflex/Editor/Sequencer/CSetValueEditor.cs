@@ -31,19 +31,19 @@ namespace AnimFlex.Sequencer.Editor
             pos.y += AFStyles.Height + AFStyles.VerticalSpace;
 
             AFEditorUtils.DrawFieldNameSelectionPopup(type, componentProp, pos, valueNameProp);
-
+            
             pos.y += AFStyles.Height + AFStyles.VerticalSpace;
             EditorGUI.PropertyField(pos, newValueProp, true);
 
             EditorGUI.EndProperty();
         }
-        public static float GetPropertyHeight(SerializedProperty property) =>
-            AFStyles.Height * 2 + AFStyles.VerticalSpace * 3 +
+        public static float GetPropertyHeight(SerializedProperty property) => 
+            AFStyles.Height * 2 + AFStyles.VerticalSpace * 3 + 
             EditorGUI.GetPropertyHeight(property.FindPropertyRelative("value"));
     }
 
     [CustomPropertyDrawer(typeof(CSetValue), true)]
-    public class CSetValueDrawer : PropertyDrawer
+    public class CSetValueEditor : PropertyDrawer
     {
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label) =>
             CSetValueEditorUtils.OnGUI(position, property, label, ((CSetValue)property.GetValue()).GetValueType());

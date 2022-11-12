@@ -3,7 +3,7 @@ using System.IO;
 using System.Threading;
 using AnimFlex.Sequencer;
 using AnimFlex.Sequencer.UserEnd;
-using AnimFlex.Tweener;
+using AnimFlex.Tweening;
 using LauncherFlex.ListView;
 using UnityEngine;
 

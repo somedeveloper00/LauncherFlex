@@ -28,13 +28,13 @@ namespace AnimFlex.Sequencer.Editor
                 if (check.changed)
                     AFEditorUtils.OpenComponentReferenceSelectionMenu(componentProp);
             }
-
+            
             pos.y += AFStyles.Height + AFStyles.VerticalSpace;
             AFEditorUtils.DrawFieldNameSelectionPopup(type, componentProp, pos, valueNameProp);
-
+            
             pos.y += AFStyles.Height + AFStyles.VerticalSpace;
             EditorGUI.PropertyField(pos, checkEveryProp, true);
-
+            
             pos.y += AFStyles.Height + AFStyles.VerticalSpace;
             EditorGUI.PropertyField(pos, newValueProp, true);
 
@@ -47,7 +47,7 @@ namespace AnimFlex.Sequencer.Editor
     }
 
     [CustomPropertyDrawer(typeof(CWaitUntil), true)]
-    public class CWaitUntilDrawer : PropertyDrawer
+    public class CWaitUntilEditor : PropertyDrawer
     {
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label) =>
             CWaitUntilUtil.OnGUI(position, property, label, ((CWaitUntil)property.GetValue()).GetValueType());

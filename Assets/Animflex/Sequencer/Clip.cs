@@ -23,11 +23,11 @@ namespace AnimFlex.Sequencer
         protected abstract void OnStart();
 
         /// <summary>
-        /// <para>If the clip needs to complete immediately, this will be called. this should finish any time sensitive process</para>
-        /// <para>immediately as if the process is done.</para>
-        /// <para>It should NOT start other nodes.</para>
+        /// If the clip needs to complete immediately, this will be called. this should finish any time sensitive process
+        /// immediately as if the process is done.
+        /// It should NOT start other nodes.
         /// </summary>
-        public abstract void OnForceEnd();
+        public abstract void OnEnd();
 
         /// <summary>
         /// if true, it'll receive <c>Tick()</c> callback every Update
