@@ -1,6 +1,6 @@
 [submodule "Assets/AnimFlex"]
 	path = Assets/AnimFlex
 	url = https://github.com/somedeveloper00/AnimFlex
-[submodule "Assets/UIFlex"]
-	path = Assets/UIFlex
-	url = https://github.com/somedeveloper00/UIFlex
+[submodule "Assets/HandyUI"]
+	path = Assets/HandyUI
+	url = https://github.com/somedeveloper00/HandyUI
