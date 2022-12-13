@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 8552328791971111666}
   - component: {fileID: 5344612908004978840}
   - component: {fileID: 527554015}
-  - component: {fileID: 1532696716}
   m_Layer: 0
   m_Name: play-hint
   m_TagString: Untagged
@@ -218,51 +217,6 @@ MonoBehaviour:
         m_Calls: []
     fromObject: {fileID: 3316740780932747394}
     target: {x: 1.1, y: 1.1, z: 1}
-  playOnStart: 1
---- !u!114 &1532696716
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7307386121503515413}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1c4cca99303c429f9ab6f29d785599a6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  generator:
-    customCurve:
-      serializedVersion: 2
-      m_Curve: []
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    useCurve: 0
-    useQuaternion: 0
-    relative: 0
-    useTargetTransform: 0
-    from: 1
-    ease: 9
-    duration: 3
-    delay: 0
-    pingPong: 1
-    loops: -1
-    loopDelay: 1
-    onStart:
-      m_PersistentCalls:
-        m_Calls: []
-    onUpdate:
-      m_PersistentCalls:
-        m_Calls: []
-    onComplete:
-      m_PersistentCalls:
-        m_Calls: []
-    onKill:
-      m_PersistentCalls:
-        m_Calls: []
-    fromObject: {fileID: 5344612908004978840}
-    target: 0.5
   playOnStart: 1
 --- !u!1 &7976671097233700154
 GameObject:

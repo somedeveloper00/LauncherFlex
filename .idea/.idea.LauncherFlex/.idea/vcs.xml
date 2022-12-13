@@ -3,6 +3,7 @@
   <component name="VcsDirectoryMappings">
     <mapping directory="$PROJECT_DIR$" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/Assets/AnimFlex" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/Assets/HandyUI" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/Assets/UIFlex" vcs="Git" />
   </component>
 </project>

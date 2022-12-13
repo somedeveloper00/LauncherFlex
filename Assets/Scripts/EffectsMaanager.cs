@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using AnimFlex;
 using AnimFlex.Tweening;
 using LauncherFlex;
 using UnityEngine;
@@ -53,7 +54,7 @@ namespace Scripts
 
 			foreach (var tweener in _currentTweeners)
             {
-                if (tweener.IsValid())
+                if (tweener != null)
 					tweener.Kill(false, false);
             }
 

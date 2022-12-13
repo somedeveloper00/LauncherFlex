@@ -1,17 +1,18 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class CoroutineMaker : MonoBehaviour
 {
-	private static CoroutineMaker instance;
+	private static CoroutineMaker _instance;
 
-	public static void DoCoroutine(IEnumerator enumerator) => instance.StartCoroutine(enumerator);
-
-	[RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
-	private static void Initialize()
-	{
-		if (instance != null) return;
-		var go = new GameObject("__coroutine-maker");
-		instance = go.AddComponent<CoroutineMaker>();
+	private static CoroutineMaker getInstance() {
+		if ( _instance != null ) return _instance;
+		var go = new GameObject( "__coroutine-maker" );
+		return (_instance = go.AddComponent<CoroutineMaker>());
 	}
+
+	public static Coroutine StartCoroutine(IEnumerator enumerator) => ((MonoBehaviour)getInstance()).StartCoroutine( enumerator );
+	public static void StopCoroutine(Coroutine coroutine) => ((MonoBehaviour)getInstance()).StopCoroutine( coroutine );
+	public static void StopAllCoroutines() => ((MonoBehaviour)getInstance()).StopAllCoroutines();
 }

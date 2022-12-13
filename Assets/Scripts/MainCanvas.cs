@@ -1,23 +1,21 @@
-﻿using LauncherFlex.EditMenu;
+﻿using System;
+using System.Threading.Tasks;
+using LauncherFlex.EditMenu;
 using UnityEngine;
 
 namespace LauncherFlex
 {
 	public class MainCanvas : MonoBehaviour
 	{
-		[SerializeField] private RawEditMenu _rawEditMenuPrefab;
+		[SerializeField] private RawEditMenu _rawEditMenu;
 		[SerializeField] private Manager _manager;
 
-		public void OpenRawEditMenu()
+		public async void OpenRawEditMenu()
 		{
 			GlobalInput.EnableOverlay();
-			var menu = Instantiate(_rawEditMenuPrefab);
-			menu.onDestroy += () =>
-			{
-				GlobalInput.DisableOverlay();
-				_manager.ReloadGamesListView();
-			};
-			menu.GetComponent<Canvas>().sortingOrder = GetComponent<Canvas>().sortingOrder + 10;
+			await _rawEditMenu.OpenMenu();
+			GlobalInput.DisableOverlay();
+			_manager.ReloadGamesListView();
 		}
 	}
 }

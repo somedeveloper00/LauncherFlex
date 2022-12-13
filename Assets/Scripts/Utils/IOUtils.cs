@@ -30,7 +30,7 @@ public static class IOUtils
 
 	public static void SaveGameData(List<GameData> data, Action onFinish)
 	{
-		CoroutineMaker.DoCoroutine(enumerator());
+		CoroutineMaker.StartCoroutine(enumerator());
 
 		IEnumerator enumerator()
 		{
@@ -44,7 +44,7 @@ public static class IOUtils
 
 	public static void LoadGameData(Action<List<GameData>> onComplete, Action onFail)
 	{
-		CoroutineMaker.DoCoroutine(enumerator());
+		CoroutineMaker.StartCoroutine(enumerator());
 
 		IEnumerator enumerator()
 		{

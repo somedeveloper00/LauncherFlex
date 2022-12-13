@@ -191,10 +191,10 @@ RectTransform:
   m_Father: {fileID: 4127200193907954294}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 433, y: 18}
-  m_SizeDelta: {x: 10.6836, y: 440}
+  m_AnchorMin: {x: 1, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: -21, y: 18}
+  m_SizeDelta: {x: 10.683594, y: -232}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4127200193386571970
 CanvasRenderer:
@@ -1032,7 +1032,6 @@ MonoBehaviour:
       type: {class: CTweenerFadeCanvasGroup, ns: AnimFlex.Sequencer.Clips, asm: AnimFlex}
       data:
         playNextOnStart: 1
-        revertOnEnd: 0
         tweenerGenerator:
           customCurve:
             serializedVersion: 2
@@ -1069,7 +1068,6 @@ MonoBehaviour:
       type: {class: CTweenerScale, ns: AnimFlex.Sequencer.Clips, asm: AnimFlex}
       data:
         playNextOnStart: 1
-        revertOnEnd: 0
         tweenerGenerator:
           customCurve:
             serializedVersion: 2
@@ -1106,7 +1104,6 @@ MonoBehaviour:
       type: {class: CTweenerLocalPosition, ns: AnimFlex.Sequencer.Clips, asm: AnimFlex}
       data:
         playNextOnStart: 0
-        revertOnEnd: 0
         tweenerGenerator:
           customCurve:
             serializedVersion: 2
@@ -1211,7 +1208,6 @@ MonoBehaviour:
       type: {class: CTweenerLocalPosition, ns: AnimFlex.Sequencer.Clips, asm: AnimFlex}
       data:
         playNextOnStart: 0
-        revertOnEnd: 0
         tweenerGenerator:
           customCurve:
             serializedVersion: 2
@@ -1248,7 +1244,6 @@ MonoBehaviour:
       type: {class: CTweenerFadeCanvasGroup, ns: AnimFlex.Sequencer.Clips, asm: AnimFlex}
       data:
         playNextOnStart: 1
-        revertOnEnd: 0
         tweenerGenerator:
           customCurve:
             serializedVersion: 2
