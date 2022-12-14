@@ -1,3 +1,7 @@
 # LauncherFlex
 stunning game launcher for windows!
-A video of how it looks in it's current state: https://1drv.ms/v/s!Al7tGIyRBCvrlEXLRSX5lNDRHGnp?e=Q6hJ2e
+A video of how it looks in it's current state: 
+
+
+https://user-images.githubusercontent.com/79690923/207661938-9347cc2a-2558-49d6-8254-e295ad05244d.mp4
+
