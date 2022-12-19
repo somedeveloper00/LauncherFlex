@@ -3,22 +3,27 @@ using System.Linq;
 using UnityEngine;
 using System;
 using System.Threading.Tasks;
+using AnimFlex.Sequencer.UserEnd;
 using HandyUI.ThemeSystem;
 using UnityEngine.Pool;
 using UnityEngine.UI;
 
 namespace LauncherFlex.EditMenu
 {
-	public class RawEditMenu : MonoBehaviour
+	public class EditMenu : MonoBehaviour
 	{
 		[SerializeField] private GameDataEditView _editViewPrefab;
 		[SerializeField] private Transform _editViewParent;
-		[SerializeField] private ThemedElementAnimPlayer _player;
+		[SerializeField] private SequenceAnim _inAnim;
+		[SerializeField] private SequenceAnim _outAnim;
+		[SerializeField] private Theme _theme;
 		[SerializeField] private ScrollRect _scrollRect;
 
-		public event Action onDestroy;
 		private List<GameDataEditView> _gameDataEditViews = new List<GameDataEditView>();
 		private Canvas _canvas;
+		private Action _onClose = null;
+		private Action _onChange = null;
+		private bool _opened = false;
 
 		private void Awake() {
 			_canvas = GetComponent<Canvas>();
@@ -31,23 +36,28 @@ namespace LauncherFlex.EditMenu
 				(gameData) => {
 					// instantiate edits
 					for ( var i = 0; i < gameData.Count; i++ ) {
-						int index = i;
 						var data = gameData[i];
 						var editView = Instantiate( _editViewPrefab, _editViewParent );
 						editView.SetData( data );
-						editView.onDelete += () => _gameDataEditViews.Remove( editView );
+						editView.onDelete += () => {
+							_gameDataEditViews.Remove( editView );
+							SaveGameDataAsync( () => _onChange?.Invoke() );
+						};
 						editView.onMoveUp += () => {
+							int index = editView.transform.GetSiblingIndex();
 							if ( index == 0 ) return;
 
 							// set view
 							_gameDataEditViews[index].transform
 								.SetSiblingIndex( _gameDataEditViews[index].transform.GetSiblingIndex() - 1 );
 							// set data
-							var tmp = _gameDataEditViews[index];
+							var temp = _gameDataEditViews[index];
 							_gameDataEditViews[index] = _gameDataEditViews[index - 1];
-							_gameDataEditViews[index - 1] = tmp;
+							_gameDataEditViews[index - 1] = temp;
+							SaveGameDataAsync( () => _onChange?.Invoke() );
 						};
 						editView.onMoveDown += () => {
+							int index = editView.transform.GetSiblingIndex();
 							if ( index == gameData.Count - 1 ) return;
 
 							// set view
@@ -57,18 +67,23 @@ namespace LauncherFlex.EditMenu
 							var tmp = _gameDataEditViews[index];
 							_gameDataEditViews[index] = _gameDataEditViews[index + 1];
 							_gameDataEditViews[index + 1] = tmp;
+							index++;
+							SaveGameDataAsync( () => _onChange?.Invoke() );
 						};
 						_gameDataEditViews.Add( editView );
 					}
-				},
-				() => { Debug.LogError( $"Could not load game data" ); } );
+					_theme.UpdateTheme( true );
+				});
 		}
 
 
-		public async Task OpenMenu() {
+		public async Task OpenMenu(Action onClose, Action onChange) {
 			_canvas.enabled = true;
 			_scrollRect.verticalNormalizedPosition = 1;
-			await _player.PlayInAnimAsync();
+			await _inAnim.PlaySequenceAsync();
+			this._onClose = onClose;
+			_onChange = onChange;
+			_opened = true;
 		}
 		
 		public void AddNewGameData() {
@@ -78,14 +93,20 @@ namespace LauncherFlex.EditMenu
 			_gameDataEditViews.Add( editView );
 		}
 
-		public void SaveGameData() {
+		public async Task SaveGameDataAsync(Action onCompleted = null) {
 			var _gameData = _gameDataEditViews.Select( g => g.ToGameData() ).ToList();
-			IOUtils.SaveGameData( _gameData, () => { Debug.Log( $"Successfully saved." ); } );
+			await IOUtils.SaveGameDataAsync( _gameData );
+			Debug.Log( $"Successfully saved." );
+			onCompleted?.Invoke();
 		}
 
 		public async void CloseMenu() {
-			await _player.PlayOutAnimAsync();
+			if ( !_opened ) return;
+			_opened = false;
+			await SaveGameDataAsync();
+			await _outAnim.PlaySequenceAsync();
 			_canvas.enabled = false;
+			_onClose?.Invoke();
 		}
 	}
 }

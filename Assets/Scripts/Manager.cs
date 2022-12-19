@@ -11,7 +11,6 @@ namespace LauncherFlex
 {
     public class Manager : MonoBehaviour
     {		
-        [SerializeField] private GameView _gameViewPrefab;
         [SerializeField] private WideListView3D _listView;
 
         private List<CancellationTokenSource> _currentCancelTokens = new List<CancellationTokenSource>();
@@ -41,21 +40,7 @@ namespace LauncherFlex
                             return;
                         }
 
-                        _listView.Clear(true);
-                        // instantiate views
-                        var views = new List<GameView>();
-                        foreach (var gameData in gameDats)
-                        {
-                            var gameView = Instantiate(_gameViewPrefab, transform);
-                            gameView.Init(gameData);
-                            views.Add(gameView);
-                        }
-
-                        _listView.AddItems(views);
-                    },
-                    () =>
-                    {
-                        
+                        _listView.SetItems(gameDats);
                     });
             }
         }

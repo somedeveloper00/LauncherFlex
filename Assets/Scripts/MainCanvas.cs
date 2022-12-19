@@ -7,15 +7,19 @@ namespace LauncherFlex
 {
 	public class MainCanvas : MonoBehaviour
 	{
-		[SerializeField] private RawEditMenu _rawEditMenu;
+		[SerializeField] private EditMenu.EditMenu editMenu;
 		[SerializeField] private Manager _manager;
 
-		public async void OpenRawEditMenu()
+		public void OpenRawEditMenu()
 		{
 			GlobalInput.EnableOverlay();
-			await _rawEditMenu.OpenMenu();
-			GlobalInput.DisableOverlay();
-			_manager.ReloadGamesListView();
+			editMenu.OpenMenu(
+				onClose: () => {
+					GlobalInput.DisableOverlay();
+				},
+				onChange: () => {
+					_manager.ReloadGamesListView();
+				} );
 		}
 	}
 }

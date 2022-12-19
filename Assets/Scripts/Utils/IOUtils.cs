@@ -28,36 +28,18 @@ public static class IOUtils
 	}
 
 
-	public static void SaveGameData(List<GameData> data, Action onFinish)
+	public static async Task SaveGameDataAsync(List<GameData> data)
 	{
-		CoroutineMaker.StartCoroutine(enumerator());
-
-		IEnumerator enumerator()
-		{
-			var str_data = JsonConvert.SerializeObject(data);
-			Debug.Log($"saving the following data:\n{str_data}");
-			var task = File.WriteAllTextAsync(DATA_SAVE_PATH, str_data);
-			yield return new WaitUntil(() => task.IsCompleted);
-			onFinish?.Invoke();
-		}
+		var str_data = JsonConvert.SerializeObject(data);
+		Debug.Log($"saving the following data:\n{str_data}");
+		await File.WriteAllTextAsync(DATA_SAVE_PATH, str_data);
 	}
 
-	public static void LoadGameData(Action<List<GameData>> onComplete, Action onFail)
+	public static async void LoadGameData(Action<List<GameData>> onComplete)
 	{
-		CoroutineMaker.StartCoroutine(enumerator());
-
-		IEnumerator enumerator()
-		{
-			// load games from the file
-			var task = File.ReadAllTextAsync(DATA_SAVE_PATH);
-			yield return new WaitUntil(() => task.IsCompleted);
-			if (task.IsCompletedSuccessfully)
-			{
-				var gameDats = JsonConvert.DeserializeObject<List<GameData>>(task.Result);
-				onComplete?.Invoke(gameDats);
-				yield break;
-			}
-			onFail?.Invoke();
-		}
+		// load games from the file
+		var data = await File.ReadAllTextAsync(DATA_SAVE_PATH);
+		var gameDats = JsonConvert.DeserializeObject<List<GameData>>(data);
+		onComplete?.Invoke(gameDats);
 	}
 }

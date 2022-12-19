@@ -297,18 +297,25 @@ MonoBehaviour:
   resetOnPlay: 1
   sequence:
     nodes:
-    - name: Node 0
+    - name: fade in
       delay: 0
       clip:
         rid: 3351869264351723522
+    - name: move in
+      delay: 0
+      clip:
+        rid: 7971919207785562130
+    - name: scale in
+      delay: 0
+      clip:
+        rid: 7971919207785562131
   references:
     version: 2
     RefIds:
     - rid: 3351869264351723522
       type: {class: CTweenerFadeCanvasGroup, ns: AnimFlex.Sequencer.Clips, asm: AnimFlex}
       data:
-        playNextOnStart: 0
-        revertOnEnd: 0
+        playNextOnStart: 1
         tweenerGenerator:
           customCurve:
             serializedVersion: 2
@@ -322,11 +329,12 @@ MonoBehaviour:
           useTargetTransform: 0
           from: 1
           ease: 2
-          duration: 1
-          delay: 0.2
+          duration: 0.4
+          delay: 0
           pingPong: 0
           loops: 0
           loopDelay: 0
+          resetOnComplete: 0
           onStart:
             m_PersistentCalls:
               m_Calls: []
@@ -341,6 +349,80 @@ MonoBehaviour:
               m_Calls: []
           fromObject: {fileID: 1929026870942843390}
           target: 0
+    - rid: 7971919207785562130
+      type: {class: CTweenerLocalPosition, ns: AnimFlex.Sequencer.Clips, asm: AnimFlex}
+      data:
+        playNextOnStart: 1
+        tweenerGenerator:
+          customCurve:
+            serializedVersion: 2
+            m_Curve: []
+            m_PreInfinity: 2
+            m_PostInfinity: 2
+            m_RotationOrder: 4
+          useCurve: 0
+          useQuaternion: 0
+          relative: 1
+          useTargetTransform: 0
+          from: 1
+          ease: 2
+          duration: 0.4
+          delay: 0
+          pingPong: 0
+          loops: 0
+          loopDelay: 0
+          resetOnComplete: 0
+          onStart:
+            m_PersistentCalls:
+              m_Calls: []
+          onUpdate:
+            m_PersistentCalls:
+              m_Calls: []
+          onComplete:
+            m_PersistentCalls:
+              m_Calls: []
+          onKill:
+            m_PersistentCalls:
+              m_Calls: []
+          fromObject: {fileID: 8805183697830896177}
+          target: {x: 0, y: -100, z: 0}
+    - rid: 7971919207785562131
+      type: {class: CTweenerScale, ns: AnimFlex.Sequencer.Clips, asm: AnimFlex}
+      data:
+        playNextOnStart: 0
+        tweenerGenerator:
+          customCurve:
+            serializedVersion: 2
+            m_Curve: []
+            m_PreInfinity: 2
+            m_PostInfinity: 2
+            m_RotationOrder: 4
+          useCurve: 0
+          useQuaternion: 0
+          relative: 1
+          useTargetTransform: 0
+          from: 1
+          ease: 2
+          duration: 0.4
+          delay: 0
+          pingPong: 0
+          loops: 0
+          loopDelay: 0
+          resetOnComplete: 0
+          onStart:
+            m_PersistentCalls:
+              m_Calls: []
+          onUpdate:
+            m_PersistentCalls:
+              m_Calls: []
+          onComplete:
+            m_PersistentCalls:
+              m_Calls: []
+          onKill:
+            m_PersistentCalls:
+              m_Calls: []
+          fromObject: {fileID: 8805183697830896177}
+          target: {x: 1.2, y: 1.2, z: 1}
 --- !u!1 &5482504922115855071
 GameObject:
   m_ObjectHideFlags: 0

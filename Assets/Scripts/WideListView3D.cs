@@ -9,7 +9,6 @@ using Scripts;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using Debug = UnityEngine.Debug;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -19,11 +18,10 @@ namespace LauncherFlex.ListView
 {
 	public class WideListView3D : MonoBehaviour
 	{
-#region view settings
-
 		[SerializeField] private EffectsMaanager _effectsMaanager;
-		[SerializeField] private Transform invalidItemsParent;
 		[SerializeField] private Transform lookAt;
+		
+#region view settings
 
 		[SerializeField] private float radius = 10;
 		[SerializeField] private float paddingInDegree = 1;
@@ -35,10 +33,10 @@ namespace LauncherFlex.ListView
 
 #endregion
 
+		[SerializeField] private GameView _viewPrefab;
 		[SerializeField] private List<GameView> _views = new List<GameView>();
+		[SerializeField] private int _activeViewLength = 0; // index of last active view
 		[SerializeField] private int currentIndex = 0;
-
-
 
 		private List<Tweener> _activeTweeners = new List<Tweener>();
 
@@ -87,16 +85,14 @@ namespace LauncherFlex.ListView
 
 		private void Start()
 		{
-			GlobalInput.mainNav.Main.Next.performed += MoveToNext;
-			GlobalInput.mainNav.Main.Previous.performed += MoveToPrevious;
+			GlobalInput.mainNav.Main.Next.performed += input_moveToNext;
+			GlobalInput.mainNav.Main.Previous.performed += input_moveToPrevious;
 			GlobalInput.mainNav.Main.Select.performed += PlayCurrent;
 		}
-
-
 		private void OnDestroy()
 		{
-			GlobalInput.mainNav.Main.Next.performed -= MoveToNext;
-			GlobalInput.mainNav.Main.Previous.performed -= MoveToPrevious;
+			GlobalInput.mainNav.Main.Next.performed -= input_moveToNext;
+			GlobalInput.mainNav.Main.Previous.performed -= input_moveToPrevious;
 			GlobalInput.mainNav.Main.Select.performed -= PlayCurrent;
 		}
 
@@ -106,7 +102,7 @@ namespace LauncherFlex.ListView
 		{
 			var gameData = _views[currentIndex].gameData;
 			var info = new ProcessStartInfo(gameData.execFullPath, gameData.argvs);
-			info.WindowStyle = ProcessWindowStyle.Normal;
+			info.WindowStyle = ProcessWindowStyle.Maximized;
 			info.WorkingDirectory = Path.GetDirectoryName(gameData.execFullPath);
 			info.UseShellExecute = true;
 			if (gameData.startAsAdmin)
@@ -115,34 +111,53 @@ namespace LauncherFlex.ListView
 			Application.Quit(0);
 		}
 
-		public void AddItems(IEnumerable<GameView> gameViews)
-		{
-			_views.AddRange(gameViews);
-			UpdateAllViews();
-		}
-		public void AddItem(GameView gameView)
-		{
-			_views.Add(gameView);
+		public void SetItems(List<GameData> gameDatas) {
+			if ( gameDatas.Count > _activeViewLength ) {
+				// activate views
+				for ( int i = _activeViewLength; i < gameDatas.Count; i++ ) {
+					// check if we have enough views
+					if ( i >= _views.Count ) {
+						var view = Instantiate(_viewPrefab, transform);
+						_views.Add(view);
+					}
+					else {
+						_views[i].gameObject.SetActive( true );
+					}
+				}
+			} 
+			else if ( gameDatas.Count < _activeViewLength ) {
+					// deactivate views
+				for ( int i = gameDatas.Count; i < _activeViewLength; i++ ) {
+					_views[i].gameObject.SetActive( false );
+				}
+			}
+			_activeViewLength = gameDatas.Count;
+
+			for (int i = 0; i < gameDatas.Count; i++)
+			{
+				var gameData = gameDatas[i];
+				_views[i].Init(gameData);
+			}
 			UpdateAllViews();
 		}
 
-		private void MoveToNext(InputAction.CallbackContext obj) => MoveToNext();
+		private void input_moveToNext(InputAction.CallbackContext obj) => MoveToNext();
 		public void MoveToNext()
 		{
-			if(currentIndex >= _views.Count - 1) return;
+			if(currentIndex >= _activeViewLength - 1) return;
 			currentIndex++;
-			AnimateViewsToPosition();
+			animateViewsToPosition();
 		}
 
-		private void MoveToPrevious(InputAction.CallbackContext obj) => MoveToPrevious();
+		private void input_moveToPrevious(InputAction.CallbackContext obj) => MoveToPrevious();
 		public void MoveToPrevious()
 		{
 			if(currentIndex == 0) return;
 			currentIndex--;
-			AnimateViewsToPosition();
+			animateViewsToPosition();
 		}
 		
-		private void AnimateViewsToPosition()
+		private void animateViewsToPosition()
 		{
 			foreach (var tweener in _activeTweeners)
 			{
@@ -151,7 +166,7 @@ namespace LauncherFlex.ListView
 			}
 			_activeTweeners.Clear();
 
-			for (int i = 0; i < _views.Count; i++)
+			for (int i = 0; i < _activeViewLength; i++)
 			{
 				var tarPos = GetPosFor(i);
 				var tarRot = GetRotFor(i);
@@ -201,15 +216,11 @@ namespace LauncherFlex.ListView
 			return pos;
 		}
 
-		public void Clear(bool destroy = true)
+		public void Clear()
 		{
-			foreach (var view in _views)
-			{
-				view.transform.SetParent(invalidItemsParent);
-				if(destroy)
-					Destroy(view.gameObject);
-			}
-			_views.Clear();
+			foreach (var view in _views) 
+				view.gameObject.SetActive( false );
+			_activeViewLength = 0;
 		}
 	}
 }
