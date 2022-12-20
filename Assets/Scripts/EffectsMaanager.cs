@@ -10,7 +10,10 @@ namespace Scripts
 	public class EffectsMaanager : MonoBehaviour
 	{
 		[Header("References")]
-		[SerializeField] private Light directLight, pointLightSide, pointLightTop;
+		[SerializeField] private Light directLight;
+		[SerializeField] private Light pointLightSide;
+		[SerializeField] private Light pointLightTop;
+
 		[SerializeField] private MeshRenderer backgroundCircle;
 		[SerializeField] private ParticleSystem softFx, hardFx;
 		

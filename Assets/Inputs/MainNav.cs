@@ -62,6 +62,24 @@ public partial class @MainNav : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""FastNext"",
+                    ""type"": ""PassThrough"",
+                    ""id"": ""b1da0243-0c72-4692-8428-920a41b1d03d"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Hold"",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""FastPrevious"",
+                    ""type"": ""PassThrough"",
+                    ""id"": ""ed80c2a9-af8d-44c1-b169-403467b62675"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Hold"",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -216,6 +234,72 @@ public partial class @MainNav : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Back"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ef7962e2-37bf-483a-98dd-5b4846f17f6c"",
+                    ""path"": ""<Gamepad>/dpad/right"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""FastNext"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""192e8375-1a94-4233-8654-f95204e6227f"",
+                    ""path"": ""<Gamepad>/leftStick/right"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""FastNext"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""95d5bed0-bce5-4a8c-b305-ecfd5ab11b46"",
+                    ""path"": ""<Keyboard>/rightArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""FastNext"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f4f538d9-70b1-4492-9d0d-ace376cb0c81"",
+                    ""path"": ""<Gamepad>/dpad/left"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""FastPrevious"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""979d44c5-a7d0-42fe-8690-18d15e171c98"",
+                    ""path"": ""<Gamepad>/leftStick/left"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""FastPrevious"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""6ddf1b40-cce9-4e62-9e90-467ec8febd3c"",
+                    ""path"": ""<Keyboard>/leftArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""FastPrevious"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -428,6 +512,8 @@ public partial class @MainNav : IInputActionCollection2, IDisposable
         m_Main_Previous = m_Main.FindAction("Previous", throwIfNotFound: true);
         m_Main_Select = m_Main.FindAction("Select", throwIfNotFound: true);
         m_Main_Back = m_Main.FindAction("Back", throwIfNotFound: true);
+        m_Main_FastNext = m_Main.FindAction("FastNext", throwIfNotFound: true);
+        m_Main_FastPrevious = m_Main.FindAction("FastPrevious", throwIfNotFound: true);
         // Overlay
         m_Overlay = asset.FindActionMap("Overlay", throwIfNotFound: true);
         m_Overlay_Next = m_Overlay.FindAction("Next", throwIfNotFound: true);
@@ -497,6 +583,8 @@ public partial class @MainNav : IInputActionCollection2, IDisposable
     private readonly InputAction m_Main_Previous;
     private readonly InputAction m_Main_Select;
     private readonly InputAction m_Main_Back;
+    private readonly InputAction m_Main_FastNext;
+    private readonly InputAction m_Main_FastPrevious;
     public struct MainActions
     {
         private @MainNav m_Wrapper;
@@ -505,6 +593,8 @@ public partial class @MainNav : IInputActionCollection2, IDisposable
         public InputAction @Previous => m_Wrapper.m_Main_Previous;
         public InputAction @Select => m_Wrapper.m_Main_Select;
         public InputAction @Back => m_Wrapper.m_Main_Back;
+        public InputAction @FastNext => m_Wrapper.m_Main_FastNext;
+        public InputAction @FastPrevious => m_Wrapper.m_Main_FastPrevious;
         public InputActionMap Get() { return m_Wrapper.m_Main; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -526,6 +616,12 @@ public partial class @MainNav : IInputActionCollection2, IDisposable
                 @Back.started -= m_Wrapper.m_MainActionsCallbackInterface.OnBack;
                 @Back.performed -= m_Wrapper.m_MainActionsCallbackInterface.OnBack;
                 @Back.canceled -= m_Wrapper.m_MainActionsCallbackInterface.OnBack;
+                @FastNext.started -= m_Wrapper.m_MainActionsCallbackInterface.OnFastNext;
+                @FastNext.performed -= m_Wrapper.m_MainActionsCallbackInterface.OnFastNext;
+                @FastNext.canceled -= m_Wrapper.m_MainActionsCallbackInterface.OnFastNext;
+                @FastPrevious.started -= m_Wrapper.m_MainActionsCallbackInterface.OnFastPrevious;
+                @FastPrevious.performed -= m_Wrapper.m_MainActionsCallbackInterface.OnFastPrevious;
+                @FastPrevious.canceled -= m_Wrapper.m_MainActionsCallbackInterface.OnFastPrevious;
             }
             m_Wrapper.m_MainActionsCallbackInterface = instance;
             if (instance != null)
@@ -542,6 +638,12 @@ public partial class @MainNav : IInputActionCollection2, IDisposable
                 @Back.started += instance.OnBack;
                 @Back.performed += instance.OnBack;
                 @Back.canceled += instance.OnBack;
+                @FastNext.started += instance.OnFastNext;
+                @FastNext.performed += instance.OnFastNext;
+                @FastNext.canceled += instance.OnFastNext;
+                @FastPrevious.started += instance.OnFastPrevious;
+                @FastPrevious.performed += instance.OnFastPrevious;
+                @FastPrevious.canceled += instance.OnFastPrevious;
             }
         }
     }
@@ -609,6 +711,8 @@ public partial class @MainNav : IInputActionCollection2, IDisposable
         void OnPrevious(InputAction.CallbackContext context);
         void OnSelect(InputAction.CallbackContext context);
         void OnBack(InputAction.CallbackContext context);
+        void OnFastNext(InputAction.CallbackContext context);
+        void OnFastPrevious(InputAction.CallbackContext context);
     }
     public interface IOverlayActions
     {

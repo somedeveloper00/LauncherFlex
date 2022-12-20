@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -23,6 +24,11 @@ namespace LauncherFlex.ListView
 		
 #region view settings
 
+		[SerializeField] private int fastMoveIndex = 1;
+		[SerializeField] private float fastMoveRepeatFreq = 0.05f;
+		[SerializeField] private Ease fastMoveEase = Ease.Linear;
+		[SerializeField] private float fastMoveZMove = -50;
+		
 		[SerializeField] private float radius = 10;
 		[SerializeField] private float paddingInDegree = 1;
 		[SerializeField] private float centerMoveForward = 1;
@@ -38,6 +44,9 @@ namespace LauncherFlex.ListView
 		[SerializeField] private int _activeViewLength = 0; // index of last active view
 		[SerializeField] private int currentIndex = 0;
 
+		private Coroutine _fastMoveCoroutine;
+		private Tweener _transformTweener;
+		
 		private List<Tweener> _activeTweeners = new List<Tweener>();
 
 
@@ -88,12 +97,20 @@ namespace LauncherFlex.ListView
 			GlobalInput.mainNav.Main.Next.performed += input_moveToNext;
 			GlobalInput.mainNav.Main.Previous.performed += input_moveToPrevious;
 			GlobalInput.mainNav.Main.Select.performed += PlayCurrent;
+			GlobalInput.mainNav.Main.FastNext.performed += input_fastMoveToNext;
+			GlobalInput.mainNav.Main.FastNext.canceled += input_fastMoveToNextStop;
+			GlobalInput.mainNav.Main.FastPrevious.performed += input_fastMoveToPrevious;
+			GlobalInput.mainNav.Main.FastPrevious.canceled += input_fastMoveToPreviousStop;
 		}
 		private void OnDestroy()
 		{
 			GlobalInput.mainNav.Main.Next.performed -= input_moveToNext;
 			GlobalInput.mainNav.Main.Previous.performed -= input_moveToPrevious;
 			GlobalInput.mainNav.Main.Select.performed -= PlayCurrent;
+			GlobalInput.mainNav.Main.FastNext.performed -= input_fastMoveToNext;
+			GlobalInput.mainNav.Main.FastNext.canceled -= input_fastMoveToNextStop;
+			GlobalInput.mainNav.Main.FastPrevious.performed -= input_fastMoveToPrevious;
+			GlobalInput.mainNav.Main.FastPrevious.canceled -= input_fastMoveToPreviousStop;
 		}
 
 		private void PlayCurrent(InputAction.CallbackContext obj) => PlayCurrent();
@@ -141,23 +158,75 @@ namespace LauncherFlex.ListView
 			UpdateAllViews();
 		}
 
+		private void input_fastMoveToNext(InputAction.CallbackContext obj) {
+			if ( _fastMoveCoroutine != null ) StopCoroutine( _fastMoveCoroutine );
+			_fastMoveCoroutine = StartCoroutine( FastMoveToNext() );
+			FastMoveToNext();
+			if ( _transformTweener != null ) _transformTweener.Kill( true, false );
+			_transformTweener = transform.AnimLocalPositionTo( Vector3.forward * fastMoveZMove, Ease.InOutSine, 0.5f );
+		}
+		private void input_fastMoveToNextStop(InputAction.CallbackContext obj) {
+			if ( _fastMoveCoroutine != null ) StopCoroutine( _fastMoveCoroutine );
+			_fastMoveCoroutine = null;
+			if ( _transformTweener != null ) _transformTweener.Kill( true, false );
+			_transformTweener = transform.AnimLocalPositionTo( Vector3.zero, Ease.InOutSine, 0.5f );
+		}
+		
+		public IEnumerator FastMoveToNext() {
+			while (true) {
+				var targetIndex = Mathf.Min( currentIndex + fastMoveIndex, _activeViewLength - 1 );
+				if ( currentIndex != targetIndex ) {
+					currentIndex = targetIndex;
+					animateViewsToPosition( fastMoveRepeatFreq, fastMoveEase );
+				}
+				yield return new WaitForSeconds( fastMoveRepeatFreq );
+			}
+		}
+		
+		private void input_fastMoveToPrevious(InputAction.CallbackContext obj) {
+			if ( _fastMoveCoroutine != null ) StopCoroutine( _fastMoveCoroutine );
+			_fastMoveCoroutine = StartCoroutine( FastMoveToPrevious() );
+			FastMoveToPrevious();
+			if ( _transformTweener != null ) _transformTweener.Kill( true, false );
+			_transformTweener = transform.AnimLocalPositionTo( Vector3.forward * fastMoveZMove, Ease.InOutSine, 0.5f );
+		}
+		private void input_fastMoveToPreviousStop(InputAction.CallbackContext obj) {
+			if ( _fastMoveCoroutine != null ) StopCoroutine( _fastMoveCoroutine );
+			_fastMoveCoroutine = null;
+			if ( _transformTweener != null ) _transformTweener.Kill( true, false );
+			_transformTweener = transform.AnimLocalPositionTo( Vector3.zero, Ease.InOutSine, 0.5f );
+		}
+
+		public IEnumerator FastMoveToPrevious() {
+			while (true) {
+				var targetIndex = Mathf.Max( currentIndex - fastMoveIndex, 0);
+				if ( currentIndex != targetIndex ) {
+					currentIndex = targetIndex;
+					animateViewsToPosition( fastMoveRepeatFreq, fastMoveEase );
+				}
+				yield return new WaitForSeconds( fastMoveRepeatFreq );
+			}
+		}
+	
+
 		private void input_moveToNext(InputAction.CallbackContext obj) => MoveToNext();
-		public void MoveToNext()
-		{
+		public void MoveToNext() {
+			if ( _fastMoveCoroutine != null ) return;
 			if(currentIndex >= _activeViewLength - 1) return;
 			currentIndex++;
-			animateViewsToPosition();
+			animateViewsToPosition( transitionDuration, transitionEase );
 		}
 
 		private void input_moveToPrevious(InputAction.CallbackContext obj) => MoveToPrevious();
 		public void MoveToPrevious()
 		{
+			if ( _fastMoveCoroutine != null ) return;
 			if(currentIndex == 0) return;
 			currentIndex--;
-			animateViewsToPosition();
+			animateViewsToPosition( transitionDuration, transitionEase );
 		}
 		
-		private void animateViewsToPosition()
+		private void animateViewsToPosition(float duration, Ease ease)
 		{
 			foreach (var tweener in _activeTweeners)
 			{
@@ -171,9 +240,9 @@ namespace LauncherFlex.ListView
 				var tarPos = GetPosFor(i);
 				var tarRot = GetRotFor(i);
 				_activeTweeners.Add(_views[i].transform
-					.AnimPositionTo(tarPos, transitionEase, transitionDuration, transitionDelay));
+					.AnimPositionTo(tarPos, ease, duration, transitionDelay));
 				_activeTweeners.Add(_views[i].transform
-					.AnimRotationTo(tarRot, transitionEase, transitionDuration, transitionDelay));
+					.AnimRotationTo(tarRot, ease, duration, transitionDelay));
 			}
 
 			_activeTweeners.Last().onComplete += UpdateAllViews;
