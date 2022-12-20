@@ -41,7 +41,8 @@ namespace LauncherFlex.EditMenu
 						editView.SetData( data );
 						editView.onDelete += () => {
 							_gameDataEditViews.Remove( editView );
-							SaveGameDataAsync( () => _onChange?.Invoke() );
+							var _gameData = _gameDataEditViews.Select( g => g.ToGameData() ).ToList();
+							IOUtils.SaveGameDataAsync( _gameData );
 						};
 						editView.onMoveUp += () => {
 							int index = editView.transform.GetSiblingIndex();
@@ -54,7 +55,8 @@ namespace LauncherFlex.EditMenu
 							var temp = _gameDataEditViews[index];
 							_gameDataEditViews[index] = _gameDataEditViews[index - 1];
 							_gameDataEditViews[index - 1] = temp;
-							SaveGameDataAsync( () => _onChange?.Invoke() );
+							var _gameData = _gameDataEditViews.Select( g => g.ToGameData() ).ToList();
+							IOUtils.SaveGameDataAsync( _gameData );
 						};
 						editView.onMoveDown += () => {
 							int index = editView.transform.GetSiblingIndex();
@@ -68,7 +70,8 @@ namespace LauncherFlex.EditMenu
 							_gameDataEditViews[index] = _gameDataEditViews[index + 1];
 							_gameDataEditViews[index + 1] = tmp;
 							index++;
-							SaveGameDataAsync( () => _onChange?.Invoke() );
+							var _gameData = _gameDataEditViews.Select( g => g.ToGameData() ).ToList();
+							IOUtils.SaveGameDataAsync( _gameData );
 						};
 						_gameDataEditViews.Add( editView );
 					}
@@ -77,13 +80,12 @@ namespace LauncherFlex.EditMenu
 		}
 
 
-		public async Task OpenMenu(Action onClose, Action onChange) {
-			_canvas.enabled = true;
+		public void OpenMenu(Action onClose, Action onChange) {
 			_scrollRect.verticalNormalizedPosition = 1;
-			await _inAnim.PlaySequenceAsync();
 			this._onClose = onClose;
 			_onChange = onChange;
 			_opened = true;
+			_inAnim.PlaySequence();
 		}
 		
 		public void AddNewGameData() {
@@ -93,19 +95,20 @@ namespace LauncherFlex.EditMenu
 			_gameDataEditViews.Add( editView );
 		}
 
-		public async Task SaveGameDataAsync(Action onCompleted = null) {
-			var _gameData = _gameDataEditViews.Select( g => g.ToGameData() ).ToList();
-			await IOUtils.SaveGameDataAsync( _gameData );
-			Debug.Log( $"Successfully saved." );
-			onCompleted?.Invoke();
-		}
 
-		public async void CloseMenu() {
+		public void CloseMenu() {
 			if ( !_opened ) return;
 			_opened = false;
-			await SaveGameDataAsync();
-			await _outAnim.PlaySequenceAsync();
-			_canvas.enabled = false;
+			
+			// save data
+			var _gameData = _gameDataEditViews.Select( g => g.ToGameData() ).ToList();
+			IOUtils.SaveGameDataAsync( _gameData );
+			
+			// out sequence will eventually finish the job
+			_outAnim.PlaySequenceAsync();
+		}
+
+		public void invokeOnClose() {
 			_onClose?.Invoke();
 		}
 	}

@@ -10,7 +10,7 @@ namespace Scripts
 	public class EffectsMaanager : MonoBehaviour
 	{
 		[Header("References")]
-		[SerializeField] private Light directLight, pointLight;
+		[SerializeField] private Light directLight, pointLightSide, pointLightTop;
 		[SerializeField] private MeshRenderer backgroundCircle;
 		[SerializeField] private ParticleSystem softFx, hardFx;
 		
@@ -50,7 +50,8 @@ namespace Scripts
 			
 			colorsFreq = GetMostFrequentColors(colors, threshold);
 			var col1 = colorsFreq[0];
-			var col2 = colorsFreq[Mathf.Min(colorsFreq.Length - 1, 1)];
+			var col2 = colorsFreq[Mathf.Min( 1, colorsFreq.Length - 1 )];
+			var col3 = colorsFreq[Mathf.Min( 2, colorsFreq.Length - 1 )];
 
 			foreach (var tweener in _currentTweeners)
             {
@@ -60,9 +61,18 @@ namespace Scripts
 
             // set point light
             _currentTweeners.Add(
-				pointLight.AnimLightColorTo(col1, ease, duration, delay)
+				pointLightSide.AnimLightColorTo(col1, ease, duration, delay)
+			);
+            
+            _currentTweeners.Add(
+				pointLightTop.AnimLightColorTo(col1, ease, duration, delay)
 			);
 			
+            // set direct light
+            _currentTweeners.Add(
+	            directLight.AnimLightColorTo( col3, ease, duration, delay )
+            );
+            
 			// set background light
 			_currentTweeners.Add(
 				backgroundCircle.AnimColorTo(col2, ease, duration, delay)

@@ -15,10 +15,10 @@ namespace LauncherFlex
 			GlobalInput.EnableOverlay();
 			editMenu.OpenMenu(
 				onClose: () => {
+					_manager.ReloadGamesListView();
 					GlobalInput.DisableOverlay();
 				},
 				onChange: () => {
-					_manager.ReloadGamesListView();
 				} );
 		}
 	}

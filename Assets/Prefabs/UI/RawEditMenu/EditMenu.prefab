@@ -49,7 +49,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 047e8afad3c64e64b1323784efd490e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playOnEnable: 1
+  playOnEnable: 0
   resetOnPlay: 1
   sequence:
     nodes:
@@ -61,10 +61,18 @@ MonoBehaviour:
       delay: 0
       clip:
         rid: 7971919346724241412
-    - name: end
-      delay: 0.18
+    - name: close menu
+      delay: 0
       clip:
-        rid: 7971919346724241415
+        rid: 7971919356931866657
+    - name: reset fade
+      delay: 0.1
+      clip:
+        rid: 7971919356931866658
+    - name: reset pos
+      delay: 0
+      clip:
+        rid: 7971919356931866659
   references:
     version: 2
     RefIds:
@@ -90,7 +98,7 @@ MonoBehaviour:
           pingPong: 0
           loops: 0
           loopDelay: 0
-          resetOnComplete: 1
+          resetOnComplete: 0
           onStart:
             m_PersistentCalls:
               m_Calls: []
@@ -108,7 +116,7 @@ MonoBehaviour:
     - rid: 7971919346724241412
       type: {class: CTweenerFadeCanvasGroup, ns: AnimFlex.Sequencer.Clips, asm: AnimFlex}
       data:
-        playNextOnStart: 1
+        playNextOnStart: 0
         tweenerGenerator:
           customCurve:
             serializedVersion: 2
@@ -127,7 +135,7 @@ MonoBehaviour:
           pingPong: 0
           loops: 0
           loopDelay: 0
-          resetOnComplete: 1
+          resetOnComplete: 0
           onStart:
             m_PersistentCalls:
               m_Calls: []
@@ -142,8 +150,110 @@ MonoBehaviour:
               m_Calls: []
           fromObject: {fileID: 982456950}
           target: 0
-    - rid: 7971919346724241415
-      type: {class: CEnd, ns: AnimFlex.Sequencer.Clips, asm: AnimFlex}
+    - rid: 7971919356931866657
+      type: {class: CEvent, ns: AnimFlex.Sequencer.Clips, asm: AnimFlex}
+      data:
+        Event:
+          m_PersistentCalls:
+            m_Calls:
+            - m_Target: {fileID: 8447617827319299683}
+              m_TargetAssemblyTypeName: UnityEngine.Behaviour, UnityEngine
+              m_MethodName: set_enabled
+              m_Mode: 6
+              m_Arguments:
+                m_ObjectArgument: {fileID: 0}
+                m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+                m_IntArgument: 0
+                m_FloatArgument: 0
+                m_StringArgument: 
+                m_BoolArgument: 0
+              m_CallState: 1
+            - m_Target: {fileID: 8447617827319299695}
+              m_TargetAssemblyTypeName: LauncherFlex.EditMenu.EditMenu, Assembly-CSharp
+              m_MethodName: invokeOnClose
+              m_Mode: 1
+              m_Arguments:
+                m_ObjectArgument: {fileID: 0}
+                m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+                m_IntArgument: 0
+                m_FloatArgument: 0
+                m_StringArgument: 
+                m_BoolArgument: 0
+              m_CallState: 2
+    - rid: 7971919356931866658
+      type: {class: CTweenerFadeCanvasGroup, ns: AnimFlex.Sequencer.Clips, asm: AnimFlex}
+      data:
+        playNextOnStart: 1
+        tweenerGenerator:
+          customCurve:
+            serializedVersion: 2
+            m_Curve: []
+            m_PreInfinity: 2
+            m_PostInfinity: 2
+            m_RotationOrder: 4
+          useCurve: 0
+          useQuaternion: 0
+          relative: 0
+          useTargetTransform: 0
+          from: 0
+          ease: 0
+          duration: 0.1
+          delay: 0
+          pingPong: 0
+          loops: 0
+          loopDelay: 0
+          resetOnComplete: 0
+          onStart:
+            m_PersistentCalls:
+              m_Calls: []
+          onUpdate:
+            m_PersistentCalls:
+              m_Calls: []
+          onComplete:
+            m_PersistentCalls:
+              m_Calls: []
+          onKill:
+            m_PersistentCalls:
+              m_Calls: []
+          fromObject: {fileID: 982456950}
+          target: 1
+    - rid: 7971919356931866659
+      type: {class: CTweenerLocalPosition, ns: AnimFlex.Sequencer.Clips, asm: AnimFlex}
+      data:
+        playNextOnStart: 0
+        tweenerGenerator:
+          customCurve:
+            serializedVersion: 2
+            m_Curve: []
+            m_PreInfinity: 2
+            m_PostInfinity: 2
+            m_RotationOrder: 4
+          useCurve: 0
+          useQuaternion: 0
+          relative: 0
+          useTargetTransform: 0
+          from: 0
+          ease: 0
+          duration: 0.1
+          delay: 0
+          pingPong: 0
+          loops: 0
+          loopDelay: 0
+          resetOnComplete: 0
+          onStart:
+            m_PersistentCalls:
+              m_Calls: []
+          onUpdate:
+            m_PersistentCalls:
+              m_Calls: []
+          onComplete:
+            m_PersistentCalls:
+              m_Calls: []
+          onKill:
+            m_PersistentCalls:
+              m_Calls: []
+          fromObject: {fileID: 8339671219923317305}
+          target: {x: 0, y: 0, z: 0}
 --- !u!1 &3156491867462649538
 GameObject:
   m_ObjectHideFlags: 0
@@ -193,7 +303,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 047e8afad3c64e64b1323784efd490e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playOnEnable: 1
+  playOnEnable: 0
   resetOnPlay: 1
   sequence:
     nodes:
@@ -205,10 +315,14 @@ MonoBehaviour:
       delay: 0
       clip:
         rid: 7971919346724241409
-    - name: list in
+    - name: canvas ON
       delay: 0
       clip:
-        rid: 7971919346724241410
+        rid: 7971919356931866654
+    - name: end
+      delay: 0
+      clip:
+        rid: 7971919356931866656
   references:
     version: 2
     RefIds:
@@ -230,14 +344,26 @@ MonoBehaviour:
           from: 1
           ease: 20
           duration: 0.5
-          delay: 0
+          delay: 0.1
           pingPong: 0
           loops: 0
           loopDelay: 0
           resetOnComplete: 0
           onStart:
             m_PersistentCalls:
-              m_Calls: []
+              m_Calls:
+              - m_Target: {fileID: 8447617827319299683}
+                m_TargetAssemblyTypeName: UnityEngine.Behaviour, UnityEngine
+                m_MethodName: set_enabled
+                m_Mode: 6
+                m_Arguments:
+                  m_ObjectArgument: {fileID: 0}
+                  m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+                  m_IntArgument: 0
+                  m_FloatArgument: 0
+                  m_StringArgument: 
+                  m_BoolArgument: 1
+                m_CallState: 1
           onUpdate:
             m_PersistentCalls:
               m_Calls: []
@@ -252,7 +378,7 @@ MonoBehaviour:
     - rid: 7971919346724241409
       type: {class: CTweenerLocalPosition, ns: AnimFlex.Sequencer.Clips, asm: AnimFlex}
       data:
-        playNextOnStart: 1
+        playNextOnStart: 0
         tweenerGenerator:
           customCurve:
             serializedVersion: 2
@@ -267,7 +393,7 @@ MonoBehaviour:
           from: 1
           ease: 20
           duration: 0.5
-          delay: 0
+          delay: 0.1
           pingPong: 0
           loops: 0
           loopDelay: 0
@@ -286,46 +412,14 @@ MonoBehaviour:
               m_Calls: []
           fromObject: {fileID: 8339671219923317305}
           target: {x: 0, y: 150, z: 0}
-    - rid: 7971919346724241410
-      type: {class: CMultiTweenerLocalPosition, ns: AnimFlex.Sequencer.Clips, asm: AnimFlex}
+    - rid: 7971919356931866654
+      type: {class: CEvent, ns: AnimFlex.Sequencer.Clips, asm: AnimFlex}
       data:
-        playNextOnStart: 0
-        tweenerGenerator:
-          customCurve:
-            serializedVersion: 2
-            m_Curve: []
-            m_PreInfinity: 2
-            m_PostInfinity: 2
-            m_RotationOrder: 4
-          useCurve: 0
-          useQuaternion: 0
-          relative: 1
-          useTargetTransform: 0
-          from: 1
-          ease: 20
-          duration: 0.1
-          delay: 0
-          pingPong: 0
-          loops: 0
-          loopDelay: 0
-          resetOnComplete: 0
-          onStart:
-            m_PersistentCalls:
-              m_Calls: []
-          onUpdate:
-            m_PersistentCalls:
-              m_Calls: []
-          onComplete:
-            m_PersistentCalls:
-              m_Calls: []
-          onKill:
-            m_PersistentCalls:
-              m_Calls: []
-          selections:
-          - transform: {fileID: 6378721646594200235}
-            type: 2
-          target: {x: 0, y: 50, z: 0}
-          multiDelay: 0.05
+        Event:
+          m_PersistentCalls:
+            m_Calls: []
+    - rid: 7971919356931866656
+      type: {class: CEnd, ns: AnimFlex.Sequencer.Clips, asm: AnimFlex}
 --- !u!1 &3947993834171731740
 GameObject:
   m_ObjectHideFlags: 0
@@ -440,8 +534,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -28.64392, y: -21.000992}
-  m_SizeDelta: {x: -77.288086, y: 18}
+  m_AnchoredPosition: {x: -30, y: 10}
+  m_SizeDelta: {x: -80, y: -40}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &8140740481024133679
 MonoBehaviour:
@@ -562,6 +656,43 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0.000053406, y: -20}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &6803199699220024968
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4897268866666981140}
+  m_Layer: 5
+  m_Name: body
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &4897268866666981140
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6803199699220024968}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 1
+  m_Children:
+  - {fileID: 8339671219923317305}
+  m_Father: {fileID: 8447617827319299682}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: -200, y: -200}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &8447617827319299686
 GameObject:
   m_ObjectHideFlags: 0
@@ -599,7 +730,7 @@ RectTransform:
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 8447617827337647810}
-  - {fileID: 8339671219923317305}
+  - {fileID: 4897268866666981140}
   - {fileID: 2816788127651045334}
   - {fileID: 650548844}
   m_Father: {fileID: 0}
@@ -903,7 +1034,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -0.000091552734}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2299124063940383880
@@ -983,8 +1114,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -22.840942, y: -20.999954}
-  m_SizeDelta: {x: 10.683594, y: 18}
+  m_AnchoredPosition: {x: -22.840942, y: 0}
+  m_SizeDelta: {x: 10.683594, y: -20}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &880441441534019326
 CanvasRenderer:
@@ -1067,7 +1198,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2037686576257504713}
   m_HandleRect: {fileID: 6613456692425197580}
   m_Direction: 2
-  m_Value: 1
+  m_Value: 0
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -1091,6 +1222,22 @@ PrefabInstance:
     - target: {fileID: 2526134806818010048, guid: c1775ce5b4c90fa4886e188c1b1097aa, type: 3}
       propertyPath: m_PreferredHeight
       value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 3058290619495673309, guid: c1775ce5b4c90fa4886e188c1b1097aa, type: 3}
+      propertyPath: m_EffectColor.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3058290619495673309, guid: c1775ce5b4c90fa4886e188c1b1097aa, type: 3}
+      propertyPath: m_EffectColor.b
+      value: 0.4339623
+      objectReference: {fileID: 0}
+    - target: {fileID: 3058290619495673309, guid: c1775ce5b4c90fa4886e188c1b1097aa, type: 3}
+      propertyPath: m_EffectColor.g
+      value: 0.4339623
+      objectReference: {fileID: 0}
+    - target: {fileID: 3058290619495673309, guid: c1775ce5b4c90fa4886e188c1b1097aa, type: 3}
+      propertyPath: m_EffectColor.r
+      value: 0.4339623
       objectReference: {fileID: 0}
     - target: {fileID: 5863913091142749045, guid: c1775ce5b4c90fa4886e188c1b1097aa, type: 3}
       propertyPath: generator.duration
@@ -1327,7 +1474,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
-    m_TransformParent: {fileID: 8447617827319299682}
+    m_TransformParent: {fileID: 4897268866666981140}
     m_Modifications:
     - target: {fileID: 571934926125555894, guid: 8988f03e91a44a943b7c7361d19e9fc5, type: 3}
       propertyPath: m_PreferredHeight
@@ -1347,7 +1494,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1945631355633268171, guid: 8988f03e91a44a943b7c7361d19e9fc5, type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1945631355633268171, guid: 8988f03e91a44a943b7c7361d19e9fc5, type: 3}
       propertyPath: m_AnchorMax.x
@@ -1367,11 +1514,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1945631355633268171, guid: 8988f03e91a44a943b7c7361d19e9fc5, type: 3}
       propertyPath: m_SizeDelta.x
-      value: -200
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1945631355633268171, guid: 8988f03e91a44a943b7c7361d19e9fc5, type: 3}
       propertyPath: m_SizeDelta.y
-      value: -200
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1945631355633268171, guid: 8988f03e91a44a943b7c7361d19e9fc5, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1391,15 +1538,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1945631355633268171, guid: 8988f03e91a44a943b7c7361d19e9fc5, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 1945631355633268171, guid: 8988f03e91a44a943b7c7361d19e9fc5, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 1945631355633268171, guid: 8988f03e91a44a943b7c7361d19e9fc5, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 1945631355633268171, guid: 8988f03e91a44a943b7c7361d19e9fc5, type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -1518,6 +1665,7 @@ PrefabInstance:
     - {fileID: 2724783798241301937, guid: 8988f03e91a44a943b7c7361d19e9fc5, type: 3}
     - {fileID: 6398170269554567000, guid: 8988f03e91a44a943b7c7361d19e9fc5, type: 3}
     - {fileID: 6110207841653873456, guid: 8988f03e91a44a943b7c7361d19e9fc5, type: 3}
+    - {fileID: 1945631355633268168, guid: 8988f03e91a44a943b7c7361d19e9fc5, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 8988f03e91a44a943b7c7361d19e9fc5, type: 3}
 --- !u!224 &8339671219923317305 stripped
 RectTransform:
@@ -1533,7 +1681,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 6584193793437941072, guid: b9627121b50fb5b428db20971d742c8b, type: 3}
       propertyPath: m_Name
-      value: body
+      value: list
       objectReference: {fileID: 0}
     - target: {fileID: 6584193793437941073, guid: b9627121b50fb5b428db20971d742c8b, type: 3}
       propertyPath: m_Pivot.x
@@ -1549,11 +1697,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6584193793437941073, guid: b9627121b50fb5b428db20971d742c8b, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6584193793437941073, guid: b9627121b50fb5b428db20971d742c8b, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6584193793437941073, guid: b9627121b50fb5b428db20971d742c8b, type: 3}
       propertyPath: m_AnchorMin.x
@@ -1565,11 +1713,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6584193793437941073, guid: b9627121b50fb5b428db20971d742c8b, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 0
+      value: -20
       objectReference: {fileID: 0}
     - target: {fileID: 6584193793437941073, guid: b9627121b50fb5b428db20971d742c8b, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 0
+      value: -100
       objectReference: {fileID: 0}
     - target: {fileID: 6584193793437941073, guid: b9627121b50fb5b428db20971d742c8b, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1605,7 +1753,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6584193793437941073, guid: b9627121b50fb5b428db20971d742c8b, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: 40
       objectReference: {fileID: 0}
     - target: {fileID: 6584193793437941073, guid: b9627121b50fb5b428db20971d742c8b, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -1644,6 +1792,22 @@ PrefabInstance:
     - target: {fileID: 2526134806818010048, guid: c1775ce5b4c90fa4886e188c1b1097aa, type: 3}
       propertyPath: m_PreferredHeight
       value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 3058290619495673309, guid: c1775ce5b4c90fa4886e188c1b1097aa, type: 3}
+      propertyPath: m_EffectColor.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3058290619495673309, guid: c1775ce5b4c90fa4886e188c1b1097aa, type: 3}
+      propertyPath: m_EffectColor.b
+      value: 0.4339623
+      objectReference: {fileID: 0}
+    - target: {fileID: 3058290619495673309, guid: c1775ce5b4c90fa4886e188c1b1097aa, type: 3}
+      propertyPath: m_EffectColor.g
+      value: 0.4339623
+      objectReference: {fileID: 0}
+    - target: {fileID: 3058290619495673309, guid: c1775ce5b4c90fa4886e188c1b1097aa, type: 3}
+      propertyPath: m_EffectColor.r
+      value: 0.4339623
       objectReference: {fileID: 0}
     - target: {fileID: 5863913091142749045, guid: c1775ce5b4c90fa4886e188c1b1097aa, type: 3}
       propertyPath: generator.duration
@@ -1916,7 +2080,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4307101232294155984, guid: 4b0862023a1263d459ce7234055469cb, type: 3}
       propertyPath: m_Pivot.y
-      value: 0.5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4307101232294155984, guid: 4b0862023a1263d459ce7234055469cb, type: 3}
       propertyPath: m_RootOrder
@@ -1924,7 +2088,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4307101232294155984, guid: 4b0862023a1263d459ce7234055469cb, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4307101232294155984, guid: 4b0862023a1263d459ce7234055469cb, type: 3}
       propertyPath: m_AnchorMax.y
@@ -1940,11 +2104,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4307101232294155984, guid: 4b0862023a1263d459ce7234055469cb, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 0
+      value: -20
       objectReference: {fileID: 0}
     - target: {fileID: 4307101232294155984, guid: 4b0862023a1263d459ce7234055469cb, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 0
+      value: 70
       objectReference: {fileID: 0}
     - target: {fileID: 4307101232294155984, guid: 4b0862023a1263d459ce7234055469cb, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1980,7 +2144,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4307101232294155984, guid: 4b0862023a1263d459ce7234055469cb, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 4307101232294155984, guid: 4b0862023a1263d459ce7234055469cb, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x

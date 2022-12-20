@@ -83,8 +83,8 @@ namespace LauncherFlex.ListView
 
 		private Vector3 CircleCenter => transform.position - transform.forward * radius;
 
-		private void Start()
-		{
+		private void Start() {
+			_activeViewLength = _views.Count;
 			GlobalInput.mainNav.Main.Next.performed += input_moveToNext;
 			GlobalInput.mainNav.Main.Previous.performed += input_moveToPrevious;
 			GlobalInput.mainNav.Main.Select.performed += PlayCurrent;
